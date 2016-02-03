@@ -1,14 +1,48 @@
-<div>
-    <label>Username:</label>
-    <input type="text" ng-model="data.username"/>
-</div>
 
-<div>
-    <label>Password:</label>
-    <input type="password" ng-model="data.password"/>
-</div>
+<h2>New User Registration</h2>
+<hr>
+    <div>
+        <label>First Name:</label>
+        <input type="text" value="First Name" ng-model="newUser.firstname"/>
+    </div>
 
-<div>
-    <label>Confirm Password:</label>
-    <input type="password" ng-model="data.confirmPassword"/>
-</div>
+    <div>
+        <label>Last Name:</label>
+        <input type="text" value="Last Name" ng-model="newUser.lastname"/>
+    </div>
+
+    <div>
+        <label>Email:</label>
+        <input type="text" value="Email" ng-model="newUser.email"/>
+    </div>
+
+    <div>
+        <label>Phone:</label>
+        <input type="text" pattern="\d{3}[\-]\d{3}[\-]\d{4}" placeholder="612-123-4567" ng-model="newUser.phone"/>
+    </div>
+
+    <div>Preferred contact method:
+        <select ng-model="newUser.contact_method">
+        <option value="" disabled selected hidden>choose from the drop down</option>
+        <option value="email">Email</option>
+        <option value="phonecall">Phone Call</option>
+        <option value="text">Text</option>
+        </select>
+    </div>
+
+    <div>
+        <label>Username:</label>
+        <input type="text" value="Username" ng-model="newUser.username" required/>
+    </div>
+
+    <div>
+        <label>Password:</label>
+        <input type="password" value="Password" ng-model="newUser.password" required/>
+    </div>
+
+    <div>
+        <label>Confirm Password:</label>
+        <input type="password" value="Confirm Password" ng-model="newUser.confirmPassword"/>
+    </div>
+
+<button ng-click="registerUser()">Submit</button>

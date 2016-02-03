@@ -16,42 +16,48 @@ app.config(['$routeProvider', '$locationProvider', function($routeProvider, $loc
         .when('/returningUserSignIn', {
             templateUrl: 'views/returningUserSignIn.html',
             controller: 'returningUserSignInController'
+        })
+        .when('/volunteerRegistration', {
+            templateUrl: 'views/volunteerRegistration.html',
+            controller: 'volunteerRegistrationController'
         });
-        //.when('/success', {
-        //    templateUrl: 'views/success.html',
-        //    controller: 'SuccessController'
-        //})
-        //.when('/failure', {
-        //    templateUrl: 'views/fail.html',
-        //    controller: 'FailController'
-        //})
-        //.when('/register', {
-        //    templateUrl: 'views/register.html',
-        //    controller: 'FailController'
-        //})
-        //.otherwise({
-        //    redirectTo: '/'
-        //});
 
     $locationProvider.html5Mode(true);
 }]);
 
 app.controller('MainController', ['$scope', '$http', '$location', function($scope, $http, $location){
 
-    //$scope.data = {};
-    //
-    //$scope.submitData = function(){
-    //    $http.post('/', $scope.data).then(function(response){
-    //        console.log(response);
-    //        $location.path(response.data);
-    //    });
-    //};
 }]);
 
-app.controller('newUserRegistrationController', ['$scope', '$http', function($scope, $http){
+app.controller('newUserRegistrationController', ['$scope', '$http', '$location', function($scope, $http, $location){
+    $scope.newUser = {};
 
+    $scope.registerUser = function(){
+        $http.post('/registerNewUser', $scope.newUser).then(function(response){
+            if(response.status==200){
+                $location.path('volunteerRegistration');
+            }
+        })
+    }
 }]);
 
-app.controller('returningUserSignInController', ['$scope', '$http', function($scope, $http){
+app.controller('returningUserSignInController', ['$scope', '$http', '$location', function($scope, $http, $location){
+    $scope.returningUser = {};
+
+    $scope.sendSignIn = function(){
+        $http.post('/signIn', $scope.returningUser).then(function(response){
+
+            console.log(response);
+
+            //if(response.status==200){
+            //    $location.path('volunteerRegistration');
+            //}else{
+            //    $location.path('returningUserSignIn');
+            //}
+        })
+    }
+}]);
+
+app.controller('volunteerRegistrationController', ['$scope', '$http', '$location', function($scope, $http, $location){
 
 }]);

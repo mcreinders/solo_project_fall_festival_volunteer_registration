@@ -1,9 +1,22 @@
+
+<h2>Returning User Sign In</h2>
+<hr>
+
 <div>
     <label>Username:</label>
-    <input type="text" ng-model="data.username"/>
+    <input type="text" ng-model="returningUser.username"/>
 </div>
 
 <div>
     <label>Password:</label>
-    <input type="password" ng-model="data.password"/>
+    <input type="password" ng-model="returningUser.password"/>
 </div>
+
+<div>
+    <button ng-click="sendSignIn()">Sign In</button>
+</div>
+
+<hr>
+<h4>
+    Problems with your account? Email Fall Festival Coordinator at coordinator@stboni.com
+</h4>
