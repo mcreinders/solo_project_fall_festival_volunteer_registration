@@ -49,14 +49,13 @@ UserSchema.pre('save', function(next){
     });
 });
 
+//password verification
 UserSchema.methods.comparePassword = function(submittedPassword, callBack){
     bcrypt.compare(submittedPassword, this.password, function(err, isMatch){
         if(err) {
-            console.log('failure');
             return callBack(err);
         }
         callBack(null, isMatch);
-        console.log('success');
     })
 };
 

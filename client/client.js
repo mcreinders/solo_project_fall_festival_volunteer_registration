@@ -20,6 +20,10 @@ app.config(['$routeProvider', '$locationProvider', function($routeProvider, $loc
         .when('/volunteerRegistration', {
             templateUrl: 'views/volunteerRegistration.html',
             controller: 'volunteerRegistrationController'
+        })
+        .when('/loginFailed', {
+            templateUrl: 'views/loginFailed.html',
+            controller: 'loginFailedController'
         });
 
     $locationProvider.html5Mode(true);
@@ -48,16 +52,20 @@ app.controller('returningUserSignInController', ['$scope', '$http', '$location',
         $http.post('/signIn', $scope.returningUser).then(function(response){
 
             console.log(response);
-
-            //if(response.status==200){
-            //    $location.path('volunteerRegistration');
-            //}else{
-            //    $location.path('returningUserSignIn');
-            //}
+            //after verifying password route according to success or failure
+            if(response.data=='success'){
+                $location.path('volunteerRegistration');
+            }else{
+                $location.path('loginFailed');
+            }
         })
     }
 }]);
 
 app.controller('volunteerRegistrationController', ['$scope', '$http', '$location', function($scope, $http, $location){
+
+}]);
+
+app.controller('loginFailedController', ['$scope', '$http', '$location', function($scope, $http, $location){
 
 }]);

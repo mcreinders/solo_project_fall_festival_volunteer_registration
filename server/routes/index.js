@@ -23,13 +23,11 @@ router.post('/registerNewUser', function(request, response, next){
 });
 
 router.get('/success', function(request, response) {
-    console.log('router.get success');
     //response.sendStatus(200);
     response.send('success');
 });
 
 router.get('/failure', function(request, response) {
-    console.log('router.get failure');
     //response.sendStatus(401);
     response.send('failure');
 });
