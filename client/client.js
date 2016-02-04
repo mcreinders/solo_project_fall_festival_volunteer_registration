@@ -17,14 +17,28 @@ app.config(['$routeProvider', '$locationProvider', function($routeProvider, $loc
             templateUrl: 'views/returningUserSignIn.html',
             controller: 'returningUserSignInController'
         })
-        .when('/volunteerRegistration', {
-            templateUrl: 'views/volunteerRegistration.html',
-            controller: 'volunteerRegistrationController'
-        })
         .when('/loginFailed', {
             templateUrl: 'views/loginFailed.html',
-            controller: 'loginFailedController'
+            //controller: 'loginFailedController'
+        })
+        .when('/volunteerRegistration', {
+            templateUrl: 'views/volunteerRegistration.html',
+            //controller: 'volunteerRegistrationController'
+        })
+        .when('/coordinatorInformation', {
+            templateUrl: 'views/coordinatorInformation.html',
+            //controller: 'coordinatorInformationController'
+        })
+        .when('/openingsByTime', {
+            templateUrl: 'views/openingsByTime.html',
+            //controller: 'openingsByTimeController'
+        })
+        .when('/openingsByActivity', {
+            templateUrl: 'views/openingsByActivity.html',
+            //controller: 'openingsByActivityController'
         });
+
+
 
     $locationProvider.html5Mode(true);
 }]);
@@ -38,7 +52,12 @@ app.controller('newUserRegistrationController', ['$scope', '$http', '$location',
 
     $scope.registerUser = function(){
         $http.post('/registerNewUser', $scope.newUser).then(function(response){
-            if(response.status==200){
+            console.log('register new user response:', response);
+            //this didn't work
+            //if(response.status==200){
+            //    $location.path('volunteerRegistration');
+            //}
+            if(response.data=='success'){
                 $location.path('volunteerRegistration');
             }
         })
@@ -54,7 +73,16 @@ app.controller('returningUserSignInController', ['$scope', '$http', '$location',
             console.log(response);
             //after verifying password route according to success or failure
             if(response.data=='success'){
-                $location.path('volunteerRegistration');
+
+                //if success do a request for the user info and check if its the coordinator
+                //if yes route to the coordinator page otherwise route to volunteer registration page
+                $http.post('/getUserInfo', $scope.returningUser).then(function(response){
+                    if(response.data.coordinator==true){
+                        $location.path('coordinatorInformation');
+                    }else{
+                        $location.path('volunteerRegistration');
+                    }
+                })
             }else{
                 $location.path('loginFailed');
             }
@@ -62,10 +90,14 @@ app.controller('returningUserSignInController', ['$scope', '$http', '$location',
     }
 }]);
 
-app.controller('volunteerRegistrationController', ['$scope', '$http', '$location', function($scope, $http, $location){
+//app.controller('volunteerRegistrationController', ['$scope', '$http', '$location', function($scope, $http, $location){
+//
+//}]);
 
-}]);
+//app.controller('coordinatorInformationController', ['$scope', '$http', '$location', function($scope, $http, $location){
+//
+//}]);
 
-app.controller('loginFailedController', ['$scope', '$http', '$location', function($scope, $http, $location){
-
-}]);
+//app.controller('loginFailedController', ['$scope', '$http', '$location', function($scope, $http, $location){
+//
+//}]);

@@ -18,7 +18,8 @@
 
     <div>
         <label>Phone:</label>
-        <input type="text" pattern="\d{3}[\-]\d{3}[\-]\d{4}" placeholder="612-123-4567" ng-model="newUser.phone"/>
+        <!--<input type="tel" required pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" placeholder="612-123-4567" title="Please format as 612-123-4567" ng-model="newUser.phone"/>-->
+        <input type="tel" placeholder="612-123-4567" ng-model="newUser.phone"/>
     </div>
 
     <div>Preferred contact method:
@@ -45,4 +46,6 @@
         <input type="password" value="Confirm Password" ng-model="newUser.confirmPassword"/>
     </div>
 
+<a href="/volunteerRegistration" class="btn btn-default">Back</a>
 <button ng-click="registerUser()">Submit</button>
+

@@ -20,13 +20,6 @@ var UserSchema = new Schema({
     reminder: Boolean
 });
 
-//Schema for the festival activities
-var ActivitySchema = new Schema({
-    begin_time: Date,
-    end_time: Date,
-    users: []
-});
-
 //encrypt volunteers password
 UserSchema.pre('save', function(next){
     var user = this;
@@ -59,13 +52,7 @@ UserSchema.methods.comparePassword = function(submittedPassword, callBack){
     })
 };
 
-
 var userModel = mongoose.model('User', UserSchema);
 
-
-//var activityModel = mongoose.model('Activity', ActivitySchema);
-
-//exports.userModel = userModel;
-//exports.activityModel = activityModel;
-
 module.exports = userModel;
+
