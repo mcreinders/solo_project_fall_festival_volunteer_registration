@@ -43,8 +43,10 @@
 
     <div>
         <label>Confirm Password:</label>
-        <input type="password" value="Confirm Password" ng-model="newUser.confirmPassword"/>
+        <input type="password" value="Confirm Password" ng-model="newUser.confirmPassword" required/>
     </div>
+
+    <div></div>
 
 <a href="/volunteerRegistration" class="btn btn-default">Back</a>
 <button ng-click="registerUser()">Submit</button>

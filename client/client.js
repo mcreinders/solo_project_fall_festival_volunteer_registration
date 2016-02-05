@@ -6,8 +6,7 @@ var app = angular.module('locationApp', ['ngRoute']);
 app.config(['$routeProvider', '$locationProvider', function($routeProvider, $locationProvider) {
     $routeProvider
         .when('/', {
-            templateUrl: 'views/registrationPage.html',
-            controller: 'MainController'
+            templateUrl: 'views/registrationPage.html'
         })
         .when('/newUserRegistration', {
             templateUrl: 'views/newUserRegistration.html',
@@ -18,24 +17,26 @@ app.config(['$routeProvider', '$locationProvider', function($routeProvider, $loc
             controller: 'returningUserSignInController'
         })
         .when('/loginFailed', {
-            templateUrl: 'views/loginFailed.html',
-            //controller: 'loginFailedController'
+            templateUrl: 'views/loginFailed.html'
         })
         .when('/volunteerRegistration', {
-            templateUrl: 'views/volunteerRegistration.html',
-            //controller: 'volunteerRegistrationController'
+            templateUrl: 'views/volunteerRegistration.html'
         })
         .when('/coordinatorInformation', {
-            templateUrl: 'views/coordinatorInformation.html',
-            //controller: 'coordinatorInformationController'
+            templateUrl: 'views/coordinatorInformation.html'
         })
         .when('/openingsByTime', {
             templateUrl: 'views/openingsByTime.html',
-            //controller: 'openingsByTimeController'
+            controller: 'openingsByTimeController'
         })
         .when('/openingsByActivity', {
-            templateUrl: 'views/openingsByActivity.html',
-            //controller: 'openingsByActivityController'
+            templateUrl: 'views/openingsByActivity.html'
+            })
+        .when('/duplicateUsername', {
+            templateUrl: 'views/duplicateUsername.html'
+        })
+        .when('/youSignedUpFor', {
+            templateUrl: 'views/youSignedUpFor.html'
         });
 
 
@@ -43,11 +44,10 @@ app.config(['$routeProvider', '$locationProvider', function($routeProvider, $loc
     $locationProvider.html5Mode(true);
 }]);
 
-app.controller('MainController', ['$scope', '$http', '$location', function($scope, $http, $location){
-
-}]);
 
 app.controller('newUserRegistrationController', ['$scope', '$http', '$location', function($scope, $http, $location){
+
+    //not currently doing anything with this object
     $scope.newUser = {};
 
     $scope.registerUser = function(){
@@ -60,20 +60,21 @@ app.controller('newUserRegistrationController', ['$scope', '$http', '$location',
             if(response.data=='success'){
                 $location.path('volunteerRegistration');
             }else{
-                //try this for now - will need a new route for dup username
-                $location.path('loginFailed');
+                //route if the username is already taken
+                $location.path('duplicateUsername');
             }
         })
     }
 }]);
 
 app.controller('returningUserSignInController', ['$scope', '$http', '$location', function($scope, $http, $location){
+
+    //not currently doing anything with this object
     $scope.returningUser = {};
 
     $scope.sendSignIn = function(){
         $http.post('/signIn', $scope.returningUser).then(function(response){
 
-            console.log(response);
             //after verifying password route according to success or failure
             if(response.data=='success'){
 
@@ -92,15 +93,17 @@ app.controller('returningUserSignInController', ['$scope', '$http', '$location',
         })
     }
 }]);
+app.controller('openingsByTimeController', ['$scope', '$http', '$location', function($scope, $http, $location){
 
-//app.controller('volunteerRegistrationController', ['$scope', '$http', '$location', function($scope, $http, $location){
-//
-//}]);
+    //this is on a button click now, will want to have run when page loads
+    $scope.getOpeningsByTime= function(){
+        $http.get('/getOpenings').then(function(response){
+           console.log('client side', response.data);
+        })
+    };
 
-//app.controller('coordinatorInformationController', ['$scope', '$http', '$location', function($scope, $http, $location){
-//
-//}]);
-
-//app.controller('loginFailedController', ['$scope', '$http', '$location', function($scope, $http, $location){
-//
-//}]);
+    //just to test the You Signed up for page
+    $scope.youSignedUpForPage = function(){
+        $location.path('youSignedUpFor');
+    };
+}]);

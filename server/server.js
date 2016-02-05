@@ -8,6 +8,7 @@ var index = require('./routes/index');
 var mongoose = require('mongoose');
 var bodyParser = require('body-parser');
 var User = require('../models/users');
+var Opening = require('../models/openings');
 
 var app = express();
 var localStrategy = require('passport-local').Strategy;
@@ -48,9 +49,9 @@ passport.serializeUser(function(user, done){
     done(null, user.id);
 });
 
-passport.deserializeUser(function(user, done){
+passport.deserializeUser(function(id, done){
     //Go get User object to put on req.user
-    User.findById(user.id, function(err, user){
+    User.findById(id, function(err, user){
         if(err){
             done(err);
         }

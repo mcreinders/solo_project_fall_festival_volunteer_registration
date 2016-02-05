@@ -3,10 +3,10 @@
  */
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
-var User = require('../../models/users');
+var User = require('../models/users');
 
 //Schema for the festival activities
-var ActivitySchema = new Schema({
+var OpeningSchema = new Schema({
     activity_name: String,
     begin_time: Date,
     end_time: Date,
@@ -14,6 +14,6 @@ var ActivitySchema = new Schema({
     users: [User]
 });
 
-var activityModel = mongoose.model('Activity', ActivitySchema);
+var openingModel = mongoose.model('Opening', OpeningSchema);
 
-module.exports = activityModel;
+module.exports = openingModel;

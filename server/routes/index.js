@@ -4,6 +4,7 @@
 var express = require('express');
 var path = require('path');
 var User = require('../../models/users');
+var Opening = require('../../models/openings');
 var passport = require('passport');
 
 var router = express.Router();
@@ -51,6 +52,19 @@ router.post('/getUserInfo', function(request, response){
             console.log(err)
         }else {
             response.send(results);
+        }
+    })
+});
+
+//get volunteer openings
+router.get('/getOpenings', function(request, response) {
+
+    Opening.find({}).exec(function(err, activities){
+        if(err){
+            console.log(err)
+        } else{
+            response.send(activities);
+            //response.send(JSON.stringify(activities));
         }
     })
 });
