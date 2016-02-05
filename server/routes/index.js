@@ -16,7 +16,8 @@ router.get('/', function(request, response){
 router.post('/registerNewUser', function(request, response, next){
     User.create(request.body, function(err, post){
         if(err) {
-            next(err);
+        //checks if username already exists
+            response.send('duplicate username');
         } else {
             //response.sendStatus(200);
             response.send('success');

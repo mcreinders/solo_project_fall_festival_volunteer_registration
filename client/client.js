@@ -59,6 +59,9 @@ app.controller('newUserRegistrationController', ['$scope', '$http', '$location',
             //}
             if(response.data=='success'){
                 $location.path('volunteerRegistration');
+            }else{
+                //try this for now - will need a new route for dup username
+                $location.path('loginFailed');
             }
         })
     }

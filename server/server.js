@@ -58,26 +58,23 @@ passport.deserializeUser(function(user, done){
     })
 });
 
-passport.use('local', new localStrategy({
-        passReqToCallback:true, usernameField: 'username'},
+passport.use('local', new localStrategy({passReqToCallback:true, usernameField: 'username'},
     function(req, username, password, done){
 
-        //Checking the password
-
+        //checking the password
         User.findOne({username: username}, function(err, user){
             if(err){
                 console.log(err);
             }
-
             if(!user){
                 return done(null, false);
             }
 
+            //calls the UserSchema.methods.comparePassword in users.js
             user.comparePassword(password, function(err, isMatch){
                 if(err){
                     console.log(err);
                 }
-
                 if(isMatch){
                     done(null, user); //success
                 } else {
