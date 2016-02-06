@@ -1,7 +1,47 @@
 hr{
     border: 1px solid black;
+    width: 700px;
+    margin-left: 5px;
 }
 
 .passwordMatch{
     color: red;
 }
+
+body{
+    margin: 0px;
+    padding: 0px;
+    background-image: url(../images/background.jpg);
+    background-position: center top;
+    background-repeat: no-repeat;
+}
+
+.wrapper{
+    width: 933px;
+    margin: 0px auto;
+    position: relative;
+    left: -1px;
+    top: 22px;
+}
+
+.leftWrapper{
+    float: left;
+    width: 200px;
+    height: 600px;
+    position: relative;
+    top: -150px;
+}
+
+.preferredContactMethod{
+    font-weight: bold;
+    margin-bottom: 2px;
+}
+
+.footer {
+    position: fixed;
+    height: 20px;
+    bottom: 0;
+    width: 100%;
+    text-align: center;
+}
+

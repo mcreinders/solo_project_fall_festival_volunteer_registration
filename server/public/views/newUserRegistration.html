@@ -22,7 +22,7 @@
         <input type="tel" placeholder="612-123-4567" ng-model="newUser.phone" required pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"/>
     </div>
 
-    <div>Preferred contact method:
+    <div class="preferredContactMethod">Preferred contact method:
         <select ng-model="newUser.contact_method">
         <option value="" disabled selected hidden>choose from the drop down</option>
         <option value="email">Email</option>
@@ -51,7 +51,7 @@
 <span class="passwordMatch" ng-show="newUser.confirmPassword != newUser.password ? show : hide">Passwords must match</span>
 </br>
 
-<a href="/volunteerRegistration" class="btn btn-default">Back</a>
-<button ng-disabled="newUser.confirmPassword != newUser.password ? show : hide" ng-click="registerUser()">Submit</button>
+<a href="/" class="btn btn-default">Back</a>
+<button class="btn btn-default" ng-disabled="newUser.confirmPassword != newUser.password ? show : hide" ng-click="registerUser()">Submit</button>
 
 
