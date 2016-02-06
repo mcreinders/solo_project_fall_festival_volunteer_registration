@@ -3,23 +3,23 @@
 <hr>
     <div>
         <label>First Name:</label>
-        <input type="text" value="First Name" ng-model="newUser.firstname"/>
+        <input type="text" placeholder="First Name" ng-model="newUser.firstname"/>
     </div>
 
     <div>
         <label>Last Name:</label>
-        <input type="text" value="Last Name" ng-model="newUser.lastname"/>
+        <input type="text" placeholder="Last Name" ng-model="newUser.lastname"/>
     </div>
 
     <div>
         <label>Email:</label>
-        <input type="text" value="Email" ng-model="newUser.email"/>
+        <input type="text" placeholder="Email" ng-model="newUser.email"/>
     </div>
 
     <div>
         <label>Phone:</label>
         <!--<input type="tel" required pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" placeholder="612-123-4567" title="Please format as 612-123-4567" ng-model="newUser.phone"/>-->
-        <input type="tel" placeholder="612-123-4567" ng-model="newUser.phone"/>
+        <input type="tel" placeholder="612-123-4567" ng-model="newUser.phone" required pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"/>
     </div>
 
     <div>Preferred contact method:
@@ -33,21 +33,25 @@
 
     <div>
         <label>Username:</label>
-        <input type="text" value="Username" ng-model="newUser.username" required/>
+        <input type="text" placeholder="Username" ng-model="newUser.username" required/> required
     </div>
 
     <div>
         <label>Password:</label>
-        <input type="password" value="Password" ng-model="newUser.password" required/>
+        <!--<input type="password" value="Password" ng-model="newUser.password" required/> required-->
+        <input type="password" placeholder="Password" ng-model="newUser.password" required/> required
     </div>
 
     <div>
         <label>Confirm Password:</label>
-        <input type="password" value="Confirm Password" ng-model="newUser.confirmPassword" required/>
+        <!--<input type="password" value="Confirm Password" ng-model="newUser.confirmPassword" required/> required-->
+        <input type="password" placeholder="Confirm Password" ng-model="newUser.confirmPassword" required/> required
     </div>
 
-    <div></div>
+<span class="passwordMatch" ng-show="newUser.confirmPassword != newUser.password ? show : hide">Passwords must match</span>
+</br>
 
 <a href="/volunteerRegistration" class="btn btn-default">Back</a>
-<button ng-click="registerUser()">Submit</button>
+<button ng-disabled="newUser.confirmPassword != newUser.password ? show : hide" ng-click="registerUser()">Submit</button>
+
 

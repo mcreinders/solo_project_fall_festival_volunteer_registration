@@ -1,3 +1,7 @@
 hr{
     border: 1px solid black;
 }
+
+.passwordMatch{
+    color: red;
+}

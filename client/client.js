@@ -39,20 +39,19 @@ app.config(['$routeProvider', '$locationProvider', function($routeProvider, $loc
             templateUrl: 'views/youSignedUpFor.html'
         });
 
-
-
     $locationProvider.html5Mode(true);
 }]);
 
-
 app.controller('newUserRegistrationController', ['$scope', '$http', '$location', function($scope, $http, $location){
 
-    //not currently doing anything with this object
+    $scope.show = true;
+    $scope.hide = false;
+
     $scope.newUser = {};
 
     $scope.registerUser = function(){
         $http.post('/registerNewUser', $scope.newUser).then(function(response){
-            console.log('register new user response:', response);
+
             //this didn't work
             //if(response.status==200){
             //    $location.path('volunteerRegistration');
@@ -69,7 +68,6 @@ app.controller('newUserRegistrationController', ['$scope', '$http', '$location',
 
 app.controller('returningUserSignInController', ['$scope', '$http', '$location', function($scope, $http, $location){
 
-    //not currently doing anything with this object
     $scope.returningUser = {};
 
     $scope.sendSignIn = function(){
