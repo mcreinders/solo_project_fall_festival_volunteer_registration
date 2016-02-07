@@ -27,14 +27,29 @@ body{
 .leftWrapper{
     float: left;
     width: 200px;
-    height: 600px;
+    /*height: 600px;*/
     position: relative;
     top: -150px;
+}
+
+.navWrapper{
+    /*background-image: url(../images/nav-backgroundv1.jpg);*/
+    /*background-position: center bottom;*/
+    width: 150px;
+    margin: 0px auto;
+    position: relative;
+    top: -8px;
+    left: 25px;
+    height: 500px;
 }
 
 .preferredContactMethod{
     font-weight: bold;
     margin-bottom: 2px;
+}
+
+.showActivities{
+
 }
 
 .footer {

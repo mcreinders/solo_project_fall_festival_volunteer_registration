@@ -20,14 +20,14 @@ app.config(['$routeProvider', '$locationProvider', function($routeProvider, $loc
             templateUrl: 'views/loginFailed.html'
         })
         .when('/volunteerRegistration', {
-            templateUrl: 'views/volunteerRegistration.html'
+            templateUrl: 'views/volunteerRegistration.html',
+            controller: 'volunteerRegistrationController'
         })
         .when('/coordinatorInformation', {
             templateUrl: 'views/coordinatorInformation.html'
         })
         .when('/openingsByTime', {
-            templateUrl: 'views/openingsByTime.html',
-            controller: 'openingsByTimeController'
+            templateUrl: 'views/openingsByTime.html'
         })
         .when('/openingsByActivity', {
             templateUrl: 'views/openingsByActivity.html'
@@ -44,6 +44,7 @@ app.config(['$routeProvider', '$locationProvider', function($routeProvider, $loc
 
 app.controller('newUserRegistrationController', ['$scope', '$http', '$location', function($scope, $http, $location){
 
+    //for the password comparison
     $scope.show = true;
     $scope.hide = false;
 
@@ -71,9 +72,11 @@ app.controller('returningUserSignInController', ['$scope', '$http', '$location',
     $scope.returningUser = {};
 
     $scope.sendSignIn = function(){
+
+        //sign in the returning user
         $http.post('/signIn', $scope.returningUser).then(function(response){
 
-            //after verifying password route according to success or failure
+            //after verifying password, route according to success or failure
             if(response.data=='success'){
 
                 //if success do a request for the user info and check if its the coordinator
@@ -91,17 +94,42 @@ app.controller('returningUserSignInController', ['$scope', '$http', '$location',
         })
     }
 }]);
-app.controller('openingsByTimeController', ['$scope', '$http', '$location', function($scope, $http, $location){
 
-    //this is on a button click now, will want to have run when page loads
-    $scope.getOpeningsByTime= function(){
+
+app.controller('volunteerRegistrationController', ['$scope', '$http', '$location', function($scope, $http, $location){
+
+    //function to show the drop down lists
+    $scope.showTimes = false;
+    $scope.showActivities = false;
+
+    $scope.showTimeList= function(){
+       $scope.showTimes = !$scope.showTimes;
+        if($scope.showActivities == true){
+            $scope.showActivities=false;
+        }
+    }
+    $scope.showActivityList= function(){
+        $scope.showActivities = !$scope.showActivities;
+        if($scope.showTimes == true){
+            $scope.showTimes = false;
+        }
+    }
+
+    $scope.getOpenings= function(){
         $http.get('/getOpenings').then(function(response){
-           console.log('client side', response.data);
         })
     };
+}]);
 
-    //just to test the You Signed up for page
-    $scope.youSignedUpForPage = function(){
-        $location.path('youSignedUpFor');
-    };
+////[][][][] THIS DOESN'T WORK [][][][][[][]
+//Service to do get request for activities
+app.factory('GetActivitiesService', ['$http', function($http){
+
+        var activityInfo = {};
+
+        $http.get('/getOpenings').then(function(response){
+            activityInfo = response.data;
+        })
+
+    return {activityInfo: activityInfo};
 }]);

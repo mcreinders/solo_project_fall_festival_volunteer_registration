@@ -3,8 +3,26 @@
 <hr>
 <h4>How would you like to view the volunteer openings?</h4>
 
-<a href="/openingsByTime" class="btn btn-default">By available time slots</a>
-<a href="/openingsByActivity" class="btn btn-default">By available activity</a>
+<!--<a href="/openingsByTime" class="btn btn-default">By available time slots</a>-->
+<button class="btn btn-default" ng-click="showTimeList(); getOpenings()">By available time slots</button>
+
+<!--<a href="/openingsByActivity" class="btn btn-default">By available activity</a>-->
+<button class="btn btn-default" ng-click="showActivityList(); getOpenings()">By available activity</button>
+
+<div ng-show="showTimes">
+    <input type="checkbox" ng-model="first"/> 10:00am-12:00pm</br>
+    <input type="checkbox" ng-model="second"/> 12:00pm-2:00pm</br>
+    <input type="checkbox" ng-model="third"/> 2:00pm-4:00pm</br>
+    <input type="checkbox" ng-model="fourth"/> 4:00pm-6:00pm
+</div>
+
+<div ng-show="showActivities">
+    <input type="checkbox" ng-model="beerGarden"/> Beer Garden</br>
+    <input type="checkbox" ng-model="bratStand"/> Brat Stand</br>
+    <input type="checkbox" ng-model="bingo"/> Bingo</br>
+    <input type="checkbox" ng-model="cookieWalk"/> Cookie Walk
+</div>
+
 
 
 <h4>Want to see what you've previously signed up for or make changes?</h4>
