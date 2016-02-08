@@ -98,27 +98,63 @@ app.controller('returningUserSignInController', ['$scope', '$http', '$location',
 
 app.controller('volunteerRegistrationController', ['$scope', '$http', '$location', function($scope, $http, $location){
 
+    //[][][][]When I was using drop down lists[][][][]
     //function to show the drop down lists
-    $scope.showTimes = false;
-    $scope.showActivities = false;
+    //$scope.showTimes = false;
+    //$scope.showActivities = false;
+    //
+    //$scope.showTimeList= function(){
+    //   $scope.showTimes = !$scope.showTimes;
+    //    if($scope.showActivities == true){
+    //        $scope.showActivities=false;
+    //    }
+    //}
+    //$scope.showActivityList= function(){
+    //    $scope.showActivities = !$scope.showActivities;
+    //    if($scope.showTimes == true){
+    //        $scope.showTimes = false;
+    //    }
+    //}
 
-    $scope.showTimeList= function(){
-       $scope.showTimes = !$scope.showTimes;
-        if($scope.showActivities == true){
-            $scope.showActivities=false;
-        }
-    }
-    $scope.showActivityList= function(){
-        $scope.showActivities = !$scope.showActivities;
-        if($scope.showTimes == true){
-            $scope.showTimes = false;
-        }
-    }
+    //stuff to sort the lists on DOM
+    $scope.predicate = 'shift';
+    $scope.reverse = true;
+    $scope.order = function(predicate) {
+        $scope.reverse = ($scope.predicate === predicate) ? !$scope.reverse : false;
+        $scope.predicate = predicate;
+    };
 
-    $scope.getOpenings= function(){
+    //to identify which item is selected
+    $scope.choice = "test";
+    $scope.choice2 = "test";
+
+    //for filter
+    $scope.searchOpening = '';
+
+    //new array to hold only the available openings
+    $scope.availableArray = [];
+
+    getOpenings= function(){
         $http.get('/getOpenings').then(function(response){
+            activities = response.data;
+
+            //counter for availableArray that will hold available openings
+            x = 0;
+            //loops through the array of objects
+            for(i=0;i<activities.length; i++){
+                //checks how many openings are available
+                numAvailable = activities[i].max_avail - activities[i].users.length;
+                //add openings to new array depending on number of available openings
+                for(j=0; j<numAvailable; j++){
+                    $scope.availableArray[x] = activities[i];
+                    x++;
+                }
+            }
+            console.log($scope.availableArray);
         })
     };
+    //to have openings show up on page load
+    getOpenings();
 }]);
 
 ////[][][][] THIS DOESN'T WORK [][][][][[][]

@@ -1,31 +1,49 @@
 
 <h2>Volunteer Registration</h2>
 <hr>
-<h4>How would you like to view the volunteer openings?</h4>
-
-<!--<a href="/openingsByTime" class="btn btn-default">By available time slots</a>-->
-<button class="btn btn-default" ng-click="showTimeList(); getOpenings()">By available time slots</button>
-
-<!--<a href="/openingsByActivity" class="btn btn-default">By available activity</a>-->
-<button class="btn btn-default" ng-click="showActivityList(); getOpenings()">By available activity</button>
-
-<div ng-show="showTimes">
-    <input type="checkbox" ng-model="first"/> 10:00am-12:00pm</br>
-    <input type="checkbox" ng-model="second"/> 12:00pm-2:00pm</br>
-    <input type="checkbox" ng-model="third"/> 2:00pm-4:00pm</br>
-    <input type="checkbox" ng-model="fourth"/> 4:00pm-6:00pm
-</div>
-
-<div ng-show="showActivities">
-    <input type="checkbox" ng-model="beerGarden"/> Beer Garden</br>
-    <input type="checkbox" ng-model="bratStand"/> Brat Stand</br>
-    <input type="checkbox" ng-model="bingo"/> Bingo</br>
-    <input type="checkbox" ng-model="cookieWalk"/> Cookie Walk
-</div>
-
-
-
-<h4>Want to see what you've previously signed up for or make changes?</h4>
-
 <!--this button doesn't do anything yet-->
-<button class="btn btn-default">View / Change registration</button>
+<h5>Want to see what you've previously signed up for or make changes?
+    <button class="btn btn-default">View / Change registration</button>
+</h5>
+
+<hr>
+<h4>Current volunteer openings</h4>
+<!--this button doesn't do anything yet-->
+<h5>Please select one item from the list below. Click Submit once you're done
+    <button class="btn btn-default">SUBMIT</button>
+</h5>
+
+<div>
+    <label>Filter:</label>
+    <input type="text" class="filter" placeholder="search for opening" ng-model="searchOpening"/>
+</div>
+
+<table class="openingsList">
+    <tr>
+        <th>
+            <button ng-click="order('shift')">Sort by time</button>
+            <span class="sortorder" ng-show="predicate === 'shift'" ng-class="{reverse:reverse}"></span>
+
+            <button ng-click="order('activity_name')">Sort by activity</button>
+            <span class="sortorder" ng-show="predicate === 'activity_name'" ng-class="{reverse:reverse}"></span>
+        </th>
+    </tr>
+    <tr ng-repeat="available in availableArray | orderBy:predicate:reverse | filter:searchOpening track by $index">
+        <td><input type="radio" ng-model="available[$index]"/> {{available.shift_time}} {{available.activity_name}}<br/></td>
+    </tr>
+</table>
+
+<!--http://stackoverflow.com/questions/17787226/ng-models-attribute-in-a-ng-repeat-input-checkbox-gets-always-literal-or-give-e-->
+
+<!--[][][][]this code would show one list at a time - changed to sorted list[][][][]-->
+<!--<button class="btn btn-default" ng-click="showTimeList(); getOpenings()">By available time slots</button>-->
+
+<!--<button class="btn btn-default" ng-click="showActivityList(); getOpenings()">By available activity</button>-->
+
+<!--<div ng-show="showTimes" ng-repeat="available in availableArray | orderBy:shift track by $index">-->
+<!--<input type="checkbox" ng-model="$index"> {{available.time}} {{available.activity_name}}</input><br/>-->
+<!--</div>-->
+
+<!--<div ng-show="showActivities" ng-repeat="available in availableArray | orderBy:shift track by $index">-->
+<!--<input type="checkbox" ng-model="$index"> {{available.activity_name}} {{available.time}}</input><br/>-->
+<!--</div>-->

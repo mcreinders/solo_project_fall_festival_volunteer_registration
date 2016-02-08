@@ -48,10 +48,6 @@ body{
     margin-bottom: 2px;
 }
 
-.showActivities{
-
-}
-
 .footer {
     position: fixed;
     height: 20px;
@@ -60,3 +56,13 @@ body{
     text-align: center;
 }
 
+.sortorder:after {
+    content: '\25b2';
+}
+.sortorder.reverse:after {
+    content: '\25bc';
+}
+
+.whiteSpace{
+    margin-left: 100px;
+}
