@@ -98,24 +98,6 @@ app.controller('returningUserSignInController', ['$scope', '$http', '$location',
 
 app.controller('volunteerRegistrationController', ['$scope', '$http', '$location', function($scope, $http, $location){
 
-    //[][][][]When I was using drop down lists[][][][]
-    //function to show the drop down lists
-    //$scope.showTimes = false;
-    //$scope.showActivities = false;
-    //
-    //$scope.showTimeList= function(){
-    //   $scope.showTimes = !$scope.showTimes;
-    //    if($scope.showActivities == true){
-    //        $scope.showActivities=false;
-    //    }
-    //}
-    //$scope.showActivityList= function(){
-    //    $scope.showActivities = !$scope.showActivities;
-    //    if($scope.showTimes == true){
-    //        $scope.showTimes = false;
-    //    }
-    //}
-
     //stuff to sort the lists on DOM
     $scope.predicate = 'shift';
     $scope.reverse = true;
@@ -123,10 +105,6 @@ app.controller('volunteerRegistrationController', ['$scope', '$http', '$location
         $scope.reverse = ($scope.predicate === predicate) ? !$scope.reverse : false;
         $scope.predicate = predicate;
     };
-
-    //to identify which item is selected
-    $scope.choice = "test";
-    $scope.choice2 = "test";
 
     //for filter
     $scope.searchOpening = '';
@@ -138,34 +116,30 @@ app.controller('volunteerRegistrationController', ['$scope', '$http', '$location
         $http.get('/getOpenings').then(function(response){
             activities = response.data;
 
-            //counter for availableArray that will hold available openings
-            x = 0;
             //loops through the array of objects
             for(i=0;i<activities.length; i++){
                 //checks how many openings are available
-                numAvailable = activities[i].max_avail - activities[i].users.length;
-                //add openings to new array depending on number of available openings
-                for(j=0; j<numAvailable; j++){
-                    $scope.availableArray[x] = activities[i];
-                    x++;
-                }
+                availOpenings = activities[i].max_avail - activities[i].users.length;
+                $scope.availableArray[i] = activities[i];
+                $scope.availableArray[i].availOpenings = availOpenings;
             }
             console.log($scope.availableArray);
         })
     };
+
     //to have openings show up on page load
     getOpenings();
+
+    //sets submitActivity equal to the id of the activity selected
+    $scope.activitySelectedFunction = function(selectedActivity){
+        $scope.submitActivity = selectedActivity;
+        console.log('activity selected function', selectedActivity);
+    };
+
+    //THIS WILL NEED TO BE A POST REQUEST TO POST USER TO THE ACTIVITY
+    $scope.activitySubmitFunction = function(submitActivity){
+        console.log('activity submit function', submitActivity);
+    };
+
 }]);
 
-////[][][][] THIS DOESN'T WORK [][][][][[][]
-//Service to do get request for activities
-app.factory('GetActivitiesService', ['$http', function($http){
-
-        var activityInfo = {};
-
-        $http.get('/getOpenings').then(function(response){
-            activityInfo = response.data;
-        })
-
-    return {activityInfo: activityInfo};
-}]);

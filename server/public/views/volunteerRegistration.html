@@ -8,9 +8,9 @@
 
 <hr>
 <h4>Current volunteer openings</h4>
-<!--this button doesn't do anything yet-->
+
 <h5>Please select one item from the list below. Click Submit once you're done
-    <button class="btn btn-default">SUBMIT</button>
+    <button class="btn btn-default" ng-click="activitySubmitFunction(submitActivity)">SUBMIT</button>
 </h5>
 
 <div>
@@ -18,32 +18,25 @@
     <input type="text" class="filter" placeholder="search for opening" ng-model="searchOpening"/>
 </div>
 
+<br/>
+
 <table class="openingsList">
     <tr>
         <th>
             <button ng-click="order('shift')">Sort by time</button>
             <span class="sortorder" ng-show="predicate === 'shift'" ng-class="{reverse:reverse}"></span>
-
+        </th>
+        <th>
             <button ng-click="order('activity_name')">Sort by activity</button>
             <span class="sortorder" ng-show="predicate === 'activity_name'" ng-class="{reverse:reverse}"></span>
         </th>
+
+        <th>Available Openings</th>
     </tr>
-    <tr ng-repeat="available in availableArray | orderBy:predicate:reverse | filter:searchOpening track by $index">
-        <td><input type="radio" ng-model="available[$index]"/> {{available.shift_time}} {{available.activity_name}}<br/></td>
+    <!--identify the id of the activity selected-->
+    <tr ng-repeat="available in availableArray | orderBy:predicate:reverse | filter:searchOpening">
+        <td><input type="radio" name="holdingPlace" ng-model="selectedActivity" ng-value="available._id" ng-change="activitySelectedFunction(selectedActivity)"/> {{available.shift_time}}</td>
+        <td>{{available.activity_name}}</td>
+        <td>{{available.availOpenings}}</td>
     </tr>
 </table>
-
-<!--http://stackoverflow.com/questions/17787226/ng-models-attribute-in-a-ng-repeat-input-checkbox-gets-always-literal-or-give-e-->
-
-<!--[][][][]this code would show one list at a time - changed to sorted list[][][][]-->
-<!--<button class="btn btn-default" ng-click="showTimeList(); getOpenings()">By available time slots</button>-->
-
-<!--<button class="btn btn-default" ng-click="showActivityList(); getOpenings()">By available activity</button>-->
-
-<!--<div ng-show="showTimes" ng-repeat="available in availableArray | orderBy:shift track by $index">-->
-<!--<input type="checkbox" ng-model="$index"> {{available.time}} {{available.activity_name}}</input><br/>-->
-<!--</div>-->
-
-<!--<div ng-show="showActivities" ng-repeat="available in availableArray | orderBy:shift track by $index">-->
-<!--<input type="checkbox" ng-model="$index"> {{available.activity_name}} {{available.time}}</input><br/>-->
-<!--</div>-->
