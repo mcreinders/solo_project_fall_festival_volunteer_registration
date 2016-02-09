@@ -36,7 +36,8 @@ app.config(['$routeProvider', '$locationProvider', function($routeProvider, $loc
             templateUrl: 'views/duplicateUsername.html'
         })
         .when('/youSignedUpFor', {
-            templateUrl: 'views/youSignedUpFor.html'
+            templateUrl: 'views/youSignedUpFor.html',
+            controller: 'youSignedUpForController'
         });
 
     $locationProvider.html5Mode(true);
@@ -58,7 +59,7 @@ app.controller('newUserRegistrationController', ['$scope', '$http', '$location',
             //    $location.path('volunteerRegistration');
             //}
             if(response.data=='success'){
-                $location.path('volunteerRegistration');
+                $location.path('returningUserSignIn');
             }else{
                 //route if the username is already taken
                 $location.path('duplicateUsername');
@@ -116,7 +117,7 @@ app.controller('volunteerRegistrationController', ['$scope', '$http', '$location
         $http.get('/getOpenings').then(function(response){
             activities = response.data;
 
-            //loops through the array of objects
+            //loops through the array of all the activities
             for(i=0;i<activities.length; i++){
                 //checks how many openings are available
                 availOpenings = activities[i].max_avail - activities[i].users.length;
@@ -126,7 +127,6 @@ app.controller('volunteerRegistrationController', ['$scope', '$http', '$location
                     $scope.availableArray[i].availOpenings = availOpenings;
                 }
             }
-            console.log($scope.availableArray);
         })
     };
 
@@ -139,7 +139,6 @@ app.controller('volunteerRegistrationController', ['$scope', '$http', '$location
     //sets submitActivity equal to the id of the activity selected
     $scope.activitySelectedFunction = function(selectedActivityID){
         $scope.submitActivityID.id = selectedActivityID;
-        console.log('activity selected function', $scope.submitActivityID);
     };
 
     //add the volunteer to the user document
@@ -147,9 +146,42 @@ app.controller('volunteerRegistrationController', ['$scope', '$http', '$location
     $scope.activitySubmitFunction = function(){
         console.log('activity submit function', $scope.submitActivityID);
         $http.post('/addVolunteer', $scope.submitActivityID).then(function(response){
-            console.log('add volunteer response', response);
             $location.path('youSignedUpFor');
         })
     };
+
+    //on click of view / change registration button
+    $scope.goToSignedUpFor = function(){
+        $location.path('youSignedUpFor');
+    }
+
+}]);
+
+app.controller('youSignedUpForController', ['$scope', '$http', '$location', function($scope, $http, $location){
+
+    getSignedUpFor= function(){
+        $http.get('/getSignedUpFor').then(function(response){
+
+            console.log(response.data);
+            console.log(response.data.activities);
+
+            //NEED TO BUILD THIS OUT
+
+            //signedUpFor = response.data;
+            //loops through the array of all the activities
+            //for(i=0;i<activities.length; i++){
+            //    //checks how many openings are available
+            //    availOpenings = activities[i].max_avail - activities[i].users.length;
+            //    //if there aren't any available openings don't show the activity
+            //    if(availOpenings>0) {
+            //        $scope.availableArray[i] = activities[i];
+            //        $scope.availableArray[i].availOpenings = availOpenings;
+            //    }
+            //}
+        })
+    };
+
+    //to have openings signed up for on page load
+    getSignedUpFor();
 
 }]);

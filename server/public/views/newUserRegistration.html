@@ -3,12 +3,12 @@
 <hr>
     <div>
         <label>First Name:</label>
-        <input type="text" placeholder="First Name" ng-model="newUser.firstname"/>
+        <input type="text" placeholder="First Name" ng-model="newUser.first_name"/>
     </div>
 
     <div>
         <label>Last Name:</label>
-        <input type="text" placeholder="Last Name" ng-model="newUser.lastname"/>
+        <input type="text" placeholder="Last Name" ng-model="newUser.last_name"/>
     </div>
 
     <div>
@@ -48,7 +48,7 @@
         <input type="password" placeholder="Confirm Password" ng-model="newUser.confirmPassword" required/> required
     </div>
 
-<span class="passwordMatch" ng-show="newUser.confirmPassword != newUser.password ? show : hide">Passwords must match</span>
+<span class="passwordMatch" ng-show="newUser.confirmPassword != newUser.password ? show : hide">Password and Confirm Password fields must match</span>
 </br>
 
 <a href="/" class="btn btn-default">Back</a>

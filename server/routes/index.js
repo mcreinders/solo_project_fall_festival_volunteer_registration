@@ -69,30 +69,57 @@ router.get('/getOpenings', function(request, response) {
     })
 });
 
-//add a volunteer to the users array of the openings document
+//add a volunteers id to the users array of the openings document
+//adds the openings document to the volunteer
 router.post('/addVolunteer', function(request, response) {
-    //console.log('request.body', request.body);
+
+    console.log('activity id', request.body);
+    console.log('user id', request.user.id);
 
     Opening.findById(request.body.id, function (err, openings) {
 
-        console.log('opening:', openings);
-
-        if (err) {
+        if(err){
             console.log('Error finding opening', err);
         } else {
-            console.log('request.user.id', request.user.id);
+            //find the user and push the openings document to the volunteer
+            User.findById(request.user.id, function(err, users){
+                if(err){
+                    console.log(err)
+                }else {
+                    users.activities.push(openings);
 
+                    users.save(function(err){
+                        if(err){
+                            console.log('error saving user', err);
+                        }
+                    });
+                }
+            });
+            //push the volunteers id to the openings document
             openings.users.push(request.user.id);
 
             openings.save(function (err) {
                 if (err) {
-                    console.log('error saving volunteer', err);
+                    console.log('error saving opening', err);
                 }
             });
             response.sendStatus(200);
         }
     });
 });
+
+//get user for list of volunteer activities they have signed up for
+router.get('/getSignedUpFor', function(request, response){
+
+    User.findById(request.user.id, function(err, results){
+        if(err){
+            console.log(err)
+        }else {
+            response.send(results);
+        }
+    })
+});
+
 
 module.exports = router;
 

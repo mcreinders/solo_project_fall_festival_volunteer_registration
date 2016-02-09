@@ -4,6 +4,8 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
+var OpeningSchema = require('./openings').schema;
+
 var bcrypt = require('bcrypt');
 var SALT_WORK_FACTOR = 10;
 
@@ -17,7 +19,8 @@ var UserSchema = new Schema({
     username: {type: String, required: true, index: {unique:true}},
     password: {type: String, required: true},
     coordinator: Boolean,
-    reminder: Boolean
+    reminder: Boolean,
+    activities: [OpeningSchema]
 });
 
 //encrypt volunteers password
@@ -53,9 +56,7 @@ UserSchema.methods.comparePassword = function(submittedPassword, callBack){
 };
 
 var userModel = mongoose.model('User', UserSchema);
-//var User = mongoose.model('User', UserSchema);
 
 module.exports = userModel;
-//exports.schema = UserSchema;
-//exports.model = User;
+
 
