@@ -120,8 +120,11 @@ app.controller('volunteerRegistrationController', ['$scope', '$http', '$location
             for(i=0;i<activities.length; i++){
                 //checks how many openings are available
                 availOpenings = activities[i].max_avail - activities[i].users.length;
-                $scope.availableArray[i] = activities[i];
-                $scope.availableArray[i].availOpenings = availOpenings;
+                //if there aren't any available openings don't show the activity
+                if(availOpenings>0) {
+                    $scope.availableArray[i] = activities[i];
+                    $scope.availableArray[i].availOpenings = availOpenings;
+                }
             }
             console.log($scope.availableArray);
         })
@@ -130,16 +133,23 @@ app.controller('volunteerRegistrationController', ['$scope', '$http', '$location
     //to have openings show up on page load
     getOpenings();
 
+    //object we'll use to send the id of the selected activity
+    $scope.submitActivityID = {};
+
     //sets submitActivity equal to the id of the activity selected
-    $scope.activitySelectedFunction = function(selectedActivity){
-        $scope.submitActivity = selectedActivity;
-        console.log('activity selected function', selectedActivity);
+    $scope.activitySelectedFunction = function(selectedActivityID){
+        $scope.submitActivityID.id = selectedActivityID;
+        console.log('activity selected function', $scope.submitActivityID);
     };
 
-    //THIS WILL NEED TO BE A POST REQUEST TO POST USER TO THE ACTIVITY
-    $scope.activitySubmitFunction = function(submitActivity){
-        console.log('activity submit function', submitActivity);
+    //add the volunteer to the user document
+    //submitActivityID is the activity selected
+    $scope.activitySubmitFunction = function(){
+        console.log('activity submit function', $scope.submitActivityID);
+        $http.post('/addVolunteer', $scope.submitActivityID).then(function(response){
+            console.log('add volunteer response', response);
+            $location.path('youSignedUpFor');
+        })
     };
 
 }]);
-

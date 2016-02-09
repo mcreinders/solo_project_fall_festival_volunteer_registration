@@ -10,6 +10,7 @@ var bodyParser = require('body-parser');
 var User = require('../models/users');
 var Opening = require('../models/openings');
 
+
 var app = express();
 var localStrategy = require('passport-local').Strategy;
 

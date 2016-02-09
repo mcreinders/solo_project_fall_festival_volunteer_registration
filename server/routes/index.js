@@ -69,4 +69,30 @@ router.get('/getOpenings', function(request, response) {
     })
 });
 
+//add a volunteer to the users array of the openings document
+router.post('/addVolunteer', function(request, response) {
+    //console.log('request.body', request.body);
+
+    Opening.findById(request.body.id, function (err, openings) {
+
+        console.log('opening:', openings);
+
+        if (err) {
+            console.log('Error finding opening', err);
+        } else {
+            console.log('request.user.id', request.user.id);
+
+            openings.users.push(request.user.id);
+
+            openings.save(function (err) {
+                if (err) {
+                    console.log('error saving volunteer', err);
+                }
+            });
+            response.sendStatus(200);
+        }
+    });
+});
+
 module.exports = router;
+

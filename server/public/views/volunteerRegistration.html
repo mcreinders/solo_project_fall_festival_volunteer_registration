@@ -10,12 +10,12 @@
 <h4>Current volunteer openings</h4>
 
 <h5>Please select one item from the list below. Click Submit once you're done
-    <button class="btn btn-default" ng-click="activitySubmitFunction(submitActivity)">SUBMIT</button>
+    <button class="btn btn-default" ng-click="activitySubmitFunction()">SUBMIT</button>
 </h5>
 
 <div>
     <label>Filter:</label>
-    <input type="text" class="filter" placeholder="search for opening" ng-model="searchOpening"/>
+    <input type="text" class="filter" placeholder="search for activity" ng-model="searchOpening"/>
 </div>
 
 <br/>
@@ -35,7 +35,7 @@
     </tr>
     <!--identify the id of the activity selected-->
     <tr ng-repeat="available in availableArray | orderBy:predicate:reverse | filter:searchOpening">
-        <td><input type="radio" name="holdingPlace" ng-model="selectedActivity" ng-value="available._id" ng-change="activitySelectedFunction(selectedActivity)"/> {{available.shift_time}}</td>
+        <td><input type="radio" name="holdingPlace" ng-model="selectedActivityID" ng-value="available._id" ng-change="activitySelectedFunction(selectedActivityID)"/> {{available.shift_time}}</td>
         <td>{{available.activity_name}}</td>
         <td>{{available.availOpenings}}</td>
     </tr>

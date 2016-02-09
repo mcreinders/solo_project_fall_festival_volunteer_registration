@@ -4,6 +4,7 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 var User = require('../models/users');
+//var UserSchema = require('./users').schema;
 
 //Schema for the festival activities
 var OpeningSchema = new Schema({
@@ -11,7 +12,8 @@ var OpeningSchema = new Schema({
     begin_time: Date,
     end_time: Date,
     max_avail: Number,
-    users: [User]
+    users: []
+    //users: [UserSchema]
 });
 
 var openingModel = mongoose.model('Opening', OpeningSchema);
