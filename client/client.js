@@ -113,14 +113,15 @@ app.controller('volunteerRegistrationController', ['$scope', '$http', '$location
     //new array to hold only the available openings
     $scope.availableArray = [];
 
-    getOpenings= function(){
+    var getOpenings= function(){
         $http.get('/getOpenings').then(function(response){
+
             activities = response.data;
 
             //loops through the array of all the activities
             for(i=0;i<activities.length; i++){
                 //checks how many openings are available
-                availOpenings = activities[i].max_avail - activities[i].users.length;
+                var availOpenings = activities[i].max_avail - activities[i].users.length;
                 //if there aren't any available openings don't show the activity
                 if(availOpenings>0) {
                     $scope.availableArray[i] = activities[i];
@@ -157,31 +158,59 @@ app.controller('volunteerRegistrationController', ['$scope', '$http', '$location
 
 }]);
 
+
 app.controller('youSignedUpForController', ['$scope', '$http', '$location', function($scope, $http, $location){
 
-    getSignedUpFor= function(){
+    //array to hold info on volunteer and openings they signed up for
+    var tempActivity = { activity: "", shiftTime: "", activityId: "" };
+    $scope.signedUpFor = [];
+    $scope.firstName = "";
+
+     var getSignedUpFor= function(){
         $http.get('/getSignedUpFor').then(function(response){
 
-            console.log(response.data);
-            console.log(response.data.activities);
+            $scope.firstName = response.data.first_name;
 
-            //NEED TO BUILD THIS OUT
+             var activityList = response.data.activities;
 
-            //signedUpFor = response.data;
             //loops through the array of all the activities
-            //for(i=0;i<activities.length; i++){
-            //    //checks how many openings are available
-            //    availOpenings = activities[i].max_avail - activities[i].users.length;
-            //    //if there aren't any available openings don't show the activity
-            //    if(availOpenings>0) {
-            //        $scope.availableArray[i] = activities[i];
-            //        $scope.availableArray[i].availOpenings = availOpenings;
-            //    }
-            //}
-        })
+            if(activityList.length > 0){
+                for(i=0; i<activityList.length; i++){
+                    var tempActivity = { activity: "", shiftTime: "", activityId: "" };
+                    tempActivity.activity = activityList[i].activity_name;
+                    tempActivity.shiftTime = activityList[i].shift_time;
+                    tempActivity.activityId = activityList[i]._id;
+                    $scope.signedUpFor.push(tempActivity);
+                }
+            }else{
+                tempActivity = {
+                    activity: "You haven't selected any volunteer openings yet.",
+                    shiftTime: ""
+                };
+                $scope.signedUpFor.push(tempActivity);
+            }
+        });
     };
 
     //to have openings signed up for on page load
     getSignedUpFor();
 
+    //object we'll use to send the id of the selected activity to remove
+    $scope.deleteActivityID = {};
+
+    //sets submitActivity equal to the id of the activity selected
+    $scope.activityRemoveFunction = function(idToRemove){
+        $scope.deleteActivityID.id = idToRemove;
+    };
+
+    //add the volunteer to the user document
+    //submitActivityID is the activity selected
+    $scope.activityDeleteFunction = function(){
+        console.log('activity delete function', $scope.deleteActivityID);
+        //$http.post('/addVolunteer', $scope.submitActivityID).then(function(response){
+        //    $location.path('youSignedUpFor');
+        //})
+    };
+
 }]);
+

@@ -1,14 +1,16 @@
 
 <h2>New User Registration</h2>
 <hr>
+
+<form>
     <div>
         <label>First Name:</label>
-        <input type="text" placeholder="First Name" ng-model="newUser.first_name"/>
+        <input type="text" required name="First Name" ng-model="newUser.first_name"/> required
     </div>
 
     <div>
         <label>Last Name:</label>
-        <input type="text" placeholder="Last Name" ng-model="newUser.last_name"/>
+        <input type="text" required name="Last Name" ng-model="newUser.last_name"/> required
     </div>
 
     <div>
@@ -31,9 +33,19 @@
         </select>
     </div>
 
+
+    <div><strong>Do you need a reminder sent?</strong>
+        <select ng-model="newUser.reminder">
+            <option value="" disabled selected hidden>choose from the drop down</option>
+            <option value="yes">Yes</option>
+            <option value="no">No</option>
+        </select>
+        </br>(you're preferred contact method will be used)
+    </div>
+
     <div>
         <label>Username:</label>
-        <input type="text" placeholder="Username" ng-model="newUser.username" required/> required
+        <input type="text" name="Username" placeholder="Username" ng-model="newUser.username" required/> required
     </div>
 
     <div>
@@ -45,13 +57,15 @@
     <div>
         <label>Confirm Password:</label>
         <!--<input type="password" value="Confirm Password" ng-model="newUser.confirmPassword" required/> required-->
-        <input type="password" placeholder="Confirm Password" ng-model="newUser.confirmPassword" required/> required
+        <input type="password" name="Confirm Password" placeholder="Confirm Password" ng-model="newUser.confirmPassword" required/> required
     </div>
 
 <span class="passwordMatch" ng-show="newUser.confirmPassword != newUser.password ? show : hide">Password and Confirm Password fields must match</span>
 </br>
 
+
+
 <a href="/" class="btn btn-default">Back</a>
 <button class="btn btn-default" ng-disabled="newUser.confirmPassword != newUser.password ? show : hide" ng-click="registerUser()">Submit</button>
 
-
+</form>

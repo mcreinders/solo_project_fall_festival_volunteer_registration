@@ -73,9 +73,6 @@ router.get('/getOpenings', function(request, response) {
 //adds the openings document to the volunteer
 router.post('/addVolunteer', function(request, response) {
 
-    console.log('activity id', request.body);
-    console.log('user id', request.user.id);
-
     Opening.findById(request.body.id, function (err, openings) {
 
         if(err){
