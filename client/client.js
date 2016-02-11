@@ -195,22 +195,17 @@ app.controller('youSignedUpForController', ['$scope', '$http', '$location', func
     //to have openings signed up for on page load
     getSignedUpFor();
 
-    //object we'll use to send the id of the selected activity to remove
-    $scope.deleteActivityID = {};
-
-    //sets submitActivity equal to the id of the activity selected
-    $scope.activityRemoveFunction = function(idToRemove){
-        $scope.deleteActivityID.id = idToRemove;
-    };
-
-    //add the volunteer to the user document
-    //submitActivityID is the activity selected
-    $scope.activityDeleteFunction = function(){
-        console.log('activity delete function', $scope.deleteActivityID);
+    //function to delete the selected activity from page
+    $scope.activityDeleteFunction = function(activityId){
+        console.log('activity delete function', activityId);
         //$http.post('/addVolunteer', $scope.submitActivityID).then(function(response){
         //    $location.path('youSignedUpFor');
         //})
     };
+
+    $scope.goToVolunteerRegistration = function(){
+        $location.path('volunteerRegistration');
+    }
 
 }]);
 

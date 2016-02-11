@@ -2,15 +2,15 @@
 <h2>New User Registration</h2>
 <hr>
 
-<form>
     <div>
         <label>First Name:</label>
-        <input type="text" required name="First Name" ng-model="newUser.first_name"/> required
+        <input type="text" placeholder="First Name" ng-model="newUser.first_name"/>
     </div>
 
     <div>
         <label>Last Name:</label>
-        <input type="text" required name="Last Name" ng-model="newUser.last_name"/> required
+        <input type="text" placeholder="Last Name" ng-model="newUser.last_name"/>
+        <span class="passwordMatch" ng-show="!newUser.first_name.length || !newUser.last_name.length ? show : hide">First and Last name fields are required</span>
     </div>
 
     <div>
@@ -45,27 +45,28 @@
 
     <div>
         <label>Username:</label>
-        <input type="text" name="Username" placeholder="Username" ng-model="newUser.username" required/> required
+        <input type="text" name="Username" placeholder="Username" ng-model="newUser.username"/>
+        <span class="passwordMatch" ng-show="!newUser.username.length ? show : hide">Username is required</span>
     </div>
 
     <div>
         <label>Password:</label>
         <!--<input type="password" value="Password" ng-model="newUser.password" required/> required-->
-        <input type="password" placeholder="Password" ng-model="newUser.password" required/> required
+        <input type="password" placeholder="Password" ng-model="newUser.password"/>
+        <span class="passwordMatch" ng-show="!newUser.password.length ? show : hide">Password is required</span>
     </div>
 
     <div>
         <label>Confirm Password:</label>
         <!--<input type="password" value="Confirm Password" ng-model="newUser.confirmPassword" required/> required-->
-        <input type="password" name="Confirm Password" placeholder="Confirm Password" ng-model="newUser.confirmPassword" required/> required
+        <input type="password" name="Confirm Password" placeholder="Confirm Password" ng-model="newUser.confirmPassword"/>
     </div>
 
 <span class="passwordMatch" ng-show="newUser.confirmPassword != newUser.password ? show : hide">Password and Confirm Password fields must match</span>
 </br>
 
-
-
 <a href="/" class="btn btn-default">Back</a>
-<button class="btn btn-default" ng-disabled="newUser.confirmPassword != newUser.password ? show : hide" ng-click="registerUser()">Submit</button>
+<!--<button class="btn btn-default" ng-disabled="newUser.confirmPassword != newUser.password ? show : hide" ng-click="registerUser()">Submit</button>-->
+<button class="btn btn-default" ng-disabled="(newUser.confirmPassword != newUser.password) || !newUser.first_name.length || !newUser.last_name.length || !newUser.username.length || !newUser.password.length ? show : hide" ng-click="registerUser()">Submit</button>
 
-</form>
+
