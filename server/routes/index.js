@@ -117,6 +117,17 @@ router.get('/getSignedUpFor', function(request, response){
     })
 });
 
+//get user for list of volunteer activities they have signed up for
+router.get('/getAllUsers', function(request, response){
+
+    User.find({}).exec(function(err, users){
+        if(err){
+            console.log(err)
+        }else {
+            response.send(users);
+        }
+    })
+});
 
 module.exports = router;
 

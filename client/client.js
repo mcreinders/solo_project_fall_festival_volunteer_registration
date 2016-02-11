@@ -24,21 +24,21 @@ app.config(['$routeProvider', '$locationProvider', function($routeProvider, $loc
             controller: 'volunteerRegistrationController'
         })
         .when('/coordinatorInformation', {
-            templateUrl: 'views/coordinatorInformation.html'
+            templateUrl: 'views/coordinatorInformation.html',
+            controller: 'coordinatorController'
         })
-        .when('/openingsByTime', {
-            templateUrl: 'views/openingsByTime.html'
-        })
-        .when('/openingsByActivity', {
-            templateUrl: 'views/openingsByActivity.html'
-            })
         .when('/duplicateUsername', {
             templateUrl: 'views/duplicateUsername.html'
         })
         .when('/youSignedUpFor', {
             templateUrl: 'views/youSignedUpFor.html',
             controller: 'youSignedUpForController'
+        })
+        .when('/volunteerList', {
+            templateUrl: 'views/volunteerList.html',
+            controller: 'volunteerListController'
         });
+
 
     $locationProvider.html5Mode(true);
 }]);
@@ -116,10 +116,10 @@ app.controller('volunteerRegistrationController', ['$scope', '$http', '$location
     var getOpenings= function(){
         $http.get('/getOpenings').then(function(response){
 
-            activities = response.data;
+            var activities = response.data;
 
             //loops through the array of all the activities
-            for(i=0;i<activities.length; i++){
+            for(var i=0;i<activities.length; i++){
                 //checks how many openings are available
                 var availOpenings = activities[i].max_avail - activities[i].users.length;
                 //if there aren't any available openings don't show the activity
@@ -161,8 +161,13 @@ app.controller('volunteerRegistrationController', ['$scope', '$http', '$location
 
 app.controller('youSignedUpForController', ['$scope', '$http', '$location', function($scope, $http, $location){
 
-    //array to hold info on volunteer and openings they signed up for
-    var tempActivity = { activity: "", shiftTime: "", activityId: "" };
+    //object to hold info on volunteer and openings they signed up for
+    var tempActivity = {
+        activity: "",
+        shiftTime: "",
+        activityId: ""
+    };
+
     $scope.signedUpFor = [];
     $scope.firstName = "";
 
@@ -175,7 +180,7 @@ app.controller('youSignedUpForController', ['$scope', '$http', '$location', func
 
             //loops through the array of all the activities
             if(activityList.length > 0){
-                for(i=0; i<activityList.length; i++){
+                for(var i=0; i<activityList.length; i++){
                     var tempActivity = { activity: "", shiftTime: "", activityId: "" };
                     tempActivity.activity = activityList[i].activity_name;
                     tempActivity.shiftTime = activityList[i].shift_time;
@@ -209,3 +214,129 @@ app.controller('youSignedUpForController', ['$scope', '$http', '$location', func
 
 }]);
 
+app.controller('coordinatorController', ['$scope', '$http', '$location', function($scope, $http, $location){
+
+    //stuff to sort the lists on DOM
+    $scope.predicate = 'shift';
+    $scope.reverse = true;
+    $scope.order = function(predicate) {
+        $scope.reverse = ($scope.predicate === predicate) ? !$scope.reverse : false;
+        $scope.predicate = predicate;
+    };
+
+    //for filter
+    $scope.searchOpening = '';
+
+    //new array to hold only the available openings
+    $scope.availableArray = [];
+
+    var getOpenings= function(){
+        $http.get('/getOpenings').then(function(response){
+
+            var activities = response.data;
+
+            //loops through the array of all the activities
+            for(var i=0;i<activities.length; i++){
+                $scope.availableArray[i] = activities[i];
+                //checks how many openings are available
+                var availOpenings = activities[i].max_avail - activities[i].users.length;
+                $scope.availableArray[i].availOpenings = availOpenings;
+                if(availOpenings == 0){
+                    $scope.availableArray[i].filled = "full";
+                }else{
+                    $scope.availableArray[i].filled = "open";
+                }
+            }
+        })
+    };
+
+    //to have openings show up on page load
+    getOpenings();
+
+    $scope.goToVolunteerList = function(){
+        $location.path('volunteerList');
+    }
+
+}]);
+
+app.controller('volunteerListController', ['$scope', '$http', '$location', function($scope, $http, $location){
+
+    //stuff to sort the lists on DOM
+    $scope.predicate = 'shift';
+    $scope.reverse = true;
+    $scope.order = function(predicate) {
+        $scope.reverse = ($scope.predicate === predicate) ? !$scope.reverse : false;
+        $scope.predicate = predicate;
+    };
+
+    //for filter
+    $scope.searchVolunteers = '';
+
+    //object to hold volunteer list
+    var tempVolunteer = {
+        name: "",
+        contact: "",
+        reminder: "",
+        activities: []
+    };
+
+    $scope.volunteerList = [];
+
+    //get the volunteer list
+    var getVolunteers = function(){
+        $http.get('getAllUsers').then(function(response){
+
+            var userList = response.data;
+
+            for(var i=0; i<userList.length; i++){
+                //check if the user has signed up for any openings
+                if(userList[i].activities.length>0){
+                    var tempVolunteer = {
+                        name: "",
+                        contact: "",
+                        reminder: "",
+                        activities: []
+                    };
+                    tempVolunteer.name = userList[i].first_name + " " + userList[i].last_name;
+                    if(userList[i].contact_method == "email"){
+                        tempVolunteer.contact = userList[i].contact_method + " " + userList[i].email;
+                    }else if (userList[i].contact_method == "phonecall"){
+                        tempVolunteer.contact = userList[i].contact_method + " " + userList[i].phone;
+                    }else if (userList[i].contact_method == "text"){
+                        tempVolunteer.contact = userList[i].contact_method + " " + userList[i].phone;
+                    }
+                    tempVolunteer.reminder = userList[i].reminder;
+
+                        //to hold activity list for each volunteer
+                        var tempActivity = {
+                            activity_name: "",
+                            shift_time:""
+                        };
+                        //add the activities to the array
+                        for(var j=0; j<userList[i].activities.length; j++){
+                            var tempActivity = {
+                                activity_name: "",
+                                shift_time:""
+                            };
+                            tempActivity.activity_name = userList[i].activities[j].activity_name;
+                            tempActivity.shift_time = userList[i].activities[j].shift_time;
+                            tempVolunteer.activities.push(tempActivity);
+                        }
+
+                    $scope.volunteerList.push(tempVolunteer);
+
+                }
+            }
+        });
+
+    };
+
+    //get the volunteer list on page load
+    getVolunteers();
+
+    //button click to return to the coordinator activity list
+    $scope.goToActivityList = function(){
+        $location.path('coordinatorInformation');
+    }
+
+}]);

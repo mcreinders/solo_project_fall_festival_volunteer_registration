@@ -21,7 +21,7 @@
     <div>
         <label>Phone:</label>
         <!--<input type="tel" required pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" placeholder="612-123-4567" title="Please format as 612-123-4567" ng-model="newUser.phone"/>-->
-        <input type="tel" placeholder="612-123-4567" ng-model="newUser.phone" required pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"/>
+        <input type="tel" placeholder="612-123-4567" ng-model="newUser.phone"/>
     </div>
 
     <div class="preferredContactMethod">Preferred contact method:
@@ -67,6 +67,7 @@
 
 <a href="/" class="btn btn-default">Back</a>
 <!--<button class="btn btn-default" ng-disabled="newUser.confirmPassword != newUser.password ? show : hide" ng-click="registerUser()">Submit</button>-->
+<!--submit button is disabled until first name, last name, username, password and confirm password fields are completed-->
 <button class="btn btn-default" ng-disabled="(newUser.confirmPassword != newUser.password) || !newUser.first_name.length || !newUser.last_name.length || !newUser.username.length || !newUser.password.length ? show : hide" ng-click="registerUser()">Submit</button>
 
 

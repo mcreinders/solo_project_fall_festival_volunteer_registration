@@ -1,6 +1,44 @@
 <h2>Coordinator Information</h2>
 <hr>
 
-<div class="well col-md-3">Frog Bog</div>
-<div class="well col-md-3">Beer Garden</div>
-<div class="well col-md-3">Brat Stand</div>
+<h4>Activity List</h4>
+<hr>
+
+<h5>View the list of volunteers
+    <button class="btn btn-default" ng-click="goToVolunteerList()">View volunteers</button>
+</h5>
+
+<div>
+    <label>Filter:</label>
+    <input type="text" class="filter" placeholder="Search" ng-model="searchOpening"/>
+</div>
+
+<br/>
+
+<table class="openingsList">
+    <tr>
+        <th>
+            <button ng-click="order('shift')">Sort by time</button>
+            <span class="sortorder" ng-show="predicate === 'shift'" ng-class="{reverse:reverse}"></span>
+        </th>
+        <th>
+            <button ng-click="order('activity_name')">Sort by activity</button>
+            <span class="sortorder" ng-show="predicate === 'activity_name'" ng-class="{reverse:reverse}"></span>
+        </th>
+        <th>
+            <button ng-click="order('availOpenings')">Sort by Avail Openings</button>
+            <span class="sortorder" ng-show="predicate === 'availOpenings'" ng-class="{reverse:reverse}"></span>
+        </th>
+        <th>
+            <button ng-click="order('filled')">Sort by Filled</button>
+            <span class="sortorder" ng-show="predicate === 'filled'" ng-class="{reverse:reverse}"></span>
+        </th>
+    </tr>
+    <!--identify the id of the activity selected-->
+    <tr ng-repeat="available in availableArray | orderBy:predicate:reverse | filter:searchOpening">
+        <td>{{available.shift_time}}</td>
+        <td>{{available.activity_name}}</td>
+        <td>{{available.availOpenings}}</td>
+        <td>{{available.filled}}</td>
+    </tr>
+</table>

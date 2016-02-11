@@ -1,0 +1,40 @@
+<h2>Coordinator Information</h2>
+<hr>
+
+<h4>Volunteer List</h4>
+
+<h5>Go to Activity List
+    <button class="btn btn-default" ng-click="goToActivityList()">View activities</button>
+</h5>
+
+<div>
+    <label>Filter:</label>
+    <input type="text" class="filter" placeholder="Search" ng-model="searchVolunteers"/>
+</div>
+
+<br/>
+
+<table class="volunteerList">
+    <tr>
+        <th>
+            <button ng-click="order('name')">Name</button>
+            <span class="sortorder" ng-show="predicate === 'name'" ng-class="{reverse:reverse}"></span>
+        </th>
+        <th>
+            <button ng-click="order('contact')">Contact</button>
+            <span class="sortorder" ng-show="predicate === 'contact'" ng-class="{reverse:reverse}"></span>
+        </th>
+        <th>
+            <button ng-click="order('reminder')">reminder</button>
+            <span class="sortorder" ng-show="predicate === 'reminder'" ng-class="{reverse:reverse}"></span>
+        </th>
+    </tr>
+    <!--identify the id of the activity selected-->
+    <tr ng-repeat="volunteer in volunteerList | orderBy:predicate:reverse | filter:searchVolunteers">
+        <td>{{volunteer.name}}</td>
+        <td class="contact">{{volunteer.contact}}</td>
+        <td>{{volunteer.reminder}}</td>
+        <!--repeat over the activities for each volunteer-->
+        <td ng-repeat="volactivity in volunteer.activities">{{volactivity.activity_name}} {{volactivity.shift_time}}</td>
+    </tr>
+</table>
