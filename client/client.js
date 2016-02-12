@@ -145,7 +145,7 @@ app.controller('volunteerRegistrationController', ['$scope', '$http', '$location
     //add the volunteer to the user document
     //submitActivityID is the activity selected
     $scope.activitySubmitFunction = function(){
-        console.log('activity submit function', $scope.submitActivityID);
+
         $http.post('/addVolunteer', $scope.submitActivityID).then(function(response){
             $location.path('youSignedUpFor');
         })
@@ -180,6 +180,8 @@ app.controller('youSignedUpForController', ['$scope', '$http', '$location', func
 
             //loops through the array of all the activities
             if(activityList.length > 0){
+                //shows 'REMOVE' button
+                $scope.noActivities = true;
                 for(var i=0; i<activityList.length; i++){
                     var tempActivity = { activity: "", shiftTime: "", activityId: "" };
                     tempActivity.activity = activityList[i].activity_name;
@@ -188,6 +190,8 @@ app.controller('youSignedUpForController', ['$scope', '$http', '$location', func
                     $scope.signedUpFor.push(tempActivity);
                 }
             }else{
+                //hides 'REMOVE' button
+                $scope.noActivities = false;
                 tempActivity = {
                     activity: "You haven't selected any volunteer openings yet.",
                     shiftTime: ""
@@ -200,12 +204,16 @@ app.controller('youSignedUpForController', ['$scope', '$http', '$location', func
     //to have openings signed up for on page load
     getSignedUpFor();
 
+    $scope.deleteActivityId = {};
+
     //function to delete the selected activity from page
     $scope.activityDeleteFunction = function(activityId){
         console.log('activity delete function', activityId);
-        //$http.post('/addVolunteer', $scope.submitActivityID).then(function(response){
-        //    $location.path('youSignedUpFor');
-        //})
+        $scope.deleteActivityId.id = activityId;
+        console.log('activity delete function', $scope.deleteActivityId);
+        $http.post('/removeActivity', $scope.deleteActivityId).then(function(response){
+            //$location.path('youSignedUpFor');
+        })
     };
 
     $scope.goToVolunteerRegistration = function(){

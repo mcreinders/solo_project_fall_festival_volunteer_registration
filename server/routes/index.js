@@ -129,5 +129,49 @@ router.get('/getAllUsers', function(request, response){
     })
 });
 
+//remove the openings document from the volunteer
+//when they remove an activity
+router.post('/removeActivity', function(request, response) {
+
+    console.log('router.delete request received', request.body);
+
+    User.findById(request.user.id, function (err, user) {
+
+        if(err){
+            console.log('Error finding user', err);
+        } else {
+            console.log('User.findById found user');
+            //find the activity and remove it
+            //user.activities.remove({}), function(err){
+            //    if(err){
+            //        console.log(err)
+            //    }else {
+            //        console.log('deleted');
+            //        response.send('deleted');
+            //    }
+            //    };
+            //have to remove the id from the openings document as well
+            //openings.users.push(request.user.id);
+            //
+            //openings.save(function (err) {
+            //    if (err) {
+            //        console.log('error saving opening', err);
+            //    }
+            //});
+            //response.sendStatus(200);
+        }
+    });
+});
+
 module.exports = router;
 
+//router.delete('/deleteAssignment/:id', function(request, response){
+//    Database_name.remove({_id: request.params.id}, function(err){
+//        if(err) {
+//            console.log(err);
+//        } else {
+//            console.log("deleted", request.params.id);
+//            response.sendStatus(200);
+//        }
+//    });
+//});
