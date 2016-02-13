@@ -133,45 +133,61 @@ router.get('/getAllUsers', function(request, response){
 //when they remove an activity
 router.post('/removeActivity', function(request, response) {
 
-    console.log('router.delete request received', request.body);
+    //request.body.id is the id of the activity to remove
+    var activityId = request.body.id;
 
+    //find the user that's logged in
     User.findById(request.user.id, function (err, user) {
 
         if(err){
             console.log('Error finding user', err);
         } else {
-            console.log('User.findById found user');
             //find the activity and remove it
-            //user.activities.remove({}), function(err){
-            //    if(err){
-            //        console.log(err)
-            //    }else {
-            //        console.log('deleted');
-            //        response.send('deleted');
-            //    }
-            //    };
-            //have to remove the id from the openings document as well
-            //openings.users.push(request.user.id);
-            //
-            //openings.save(function (err) {
-            //    if (err) {
-            //        console.log('error saving opening', err);
-            //    }
-            //});
-            //response.sendStatus(200);
+            var activityFound = user.activities.id(activityId).remove();
+
+            user.save(function(err){
+                if(err){
+                    console.log('error saving user', err);
+                }
+            });
         }
     });
+
+     //find the opening so I can remove the user id from the openings users array
+    Opening.findById(activityId, function (err, openings) {
+
+        if (err) {
+            console.log('Error finding opening', err);
+        } else {
+            //users array
+            var openingFound = openings.users;
+
+            var openingFoundLength = openingFound.length;
+            //if user signed up for same opening multiple times, remove all of them
+            for(var i=0; i<openingFoundLength; i++){
+                //position in array of user
+                var index = openingFound.indexOf(request.user.id);
+                //remove the user from the array
+                openingFound.splice(index, 1);
+            }
+
+            openings.save(function (err) {
+                if (err) {
+                    console.log('error saving openings', err);
+                }
+            });
+        }
+    });
+
+    //response.sendStatus(200);
+    response.send('success');
+});
+
+router.get('/logout', function(request, response){
+    request.logout();
+    response.send('logged_out');
 });
 
 module.exports = router;
 
-//router.delete('/deleteAssignment/:id', function(request, response){
-//    Database_name.remove({_id: request.params.id}, function(err){
-//        if(err) {
-//            console.log(err);
-//        } else {
-//            console.log("deleted", request.params.id);
-//            response.sendStatus(200);
-//        }
-//    });
-//});
+

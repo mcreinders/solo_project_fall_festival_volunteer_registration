@@ -4,6 +4,11 @@ hr{
     margin-left: 5px;
 }
 
+h2{
+   margin-right: 150px;
+    margin-top: 22px;
+}
+
 .passwordMatch{
     color: red;
 }
@@ -14,6 +19,7 @@ body{
     background-image: url(../images/background.jpg);
     background-position: center top;
     background-repeat: no-repeat;
+    font-family: "Helvetica", sans-serif;
 }
 
 .wrapper{
@@ -69,8 +75,8 @@ body{
 }
 
 th, td {
-    border-bottom: 1px solid #ddd;
-    padding: 10px;
+    /*border-bottom: 1px solid #ddd;*/
+    padding: 5px;
     text-align: center;
 }
 
@@ -91,4 +97,8 @@ tr:hover {
     overflow-y: scroll;
 }
 
+.volunteerList{
+    font-size: 9pt;
+
+}
 

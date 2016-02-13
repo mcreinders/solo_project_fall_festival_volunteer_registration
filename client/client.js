@@ -37,6 +37,9 @@ app.config(['$routeProvider', '$locationProvider', function($routeProvider, $loc
         .when('/volunteerList', {
             templateUrl: 'views/volunteerList.html',
             controller: 'volunteerListController'
+        })
+        .when('/thanks', {
+            templateUrl: 'views/thanks.html'
         });
 
 
@@ -156,6 +159,15 @@ app.controller('volunteerRegistrationController', ['$scope', '$http', '$location
         $location.path('youSignedUpFor');
     }
 
+    $scope.logOut = function(){
+        $http.get('/logout').then(function(response){
+
+            if(response.data == "logged_out"){
+                $location.path('thanks');
+            }
+        });
+    }
+
 }]);
 
 
@@ -174,6 +186,8 @@ app.controller('youSignedUpForController', ['$scope', '$http', '$location', func
      var getSignedUpFor= function(){
         $http.get('/getSignedUpFor').then(function(response){
 
+            $scope.signedUpFor = [];
+
             $scope.firstName = response.data.first_name;
 
              var activityList = response.data.activities;
@@ -182,6 +196,7 @@ app.controller('youSignedUpForController', ['$scope', '$http', '$location', func
             if(activityList.length > 0){
                 //shows 'REMOVE' button
                 $scope.noActivities = true;
+
                 for(var i=0; i<activityList.length; i++){
                     var tempActivity = { activity: "", shiftTime: "", activityId: "" };
                     tempActivity.activity = activityList[i].activity_name;
@@ -193,7 +208,7 @@ app.controller('youSignedUpForController', ['$scope', '$http', '$location', func
                 //hides 'REMOVE' button
                 $scope.noActivities = false;
                 tempActivity = {
-                    activity: "You haven't selected any volunteer openings yet.",
+                    activity: "You haven't selected any volunteer openings.",
                     shiftTime: ""
                 };
                 $scope.signedUpFor.push(tempActivity);
@@ -212,12 +227,27 @@ app.controller('youSignedUpForController', ['$scope', '$http', '$location', func
         $scope.deleteActivityId.id = activityId;
         console.log('activity delete function', $scope.deleteActivityId);
         $http.post('/removeActivity', $scope.deleteActivityId).then(function(response){
-            //$location.path('youSignedUpFor');
-        })
+            //if(response.data=='success'){
+            //    $location.path('volunteerRegistration');
+            //}
+            if(response.data=='success'){
+                getSignedUpFor();
+                $location.path('youSignedUpFor');
+            }
+        });
     };
 
     $scope.goToVolunteerRegistration = function(){
         $location.path('volunteerRegistration');
+    }
+
+    $scope.logOut = function(){
+        $http.get('/logout').then(function(response){
+
+            if(response.data == "logged_out"){
+                $location.path('thanks');
+            }
+        });
     }
 
 }]);
@@ -263,6 +293,15 @@ app.controller('coordinatorController', ['$scope', '$http', '$location', functio
 
     $scope.goToVolunteerList = function(){
         $location.path('volunteerList');
+    }
+
+    $scope.logOut = function(){
+        $http.get('/logout').then(function(response){
+
+            if(response.data == "logged_out"){
+                $location.path('thanks');
+            }
+        });
     }
 
 }]);
@@ -345,6 +384,15 @@ app.controller('volunteerListController', ['$scope', '$http', '$location', funct
     //button click to return to the coordinator activity list
     $scope.goToActivityList = function(){
         $location.path('coordinatorInformation');
+    }
+
+    $scope.logOut = function(){
+        $http.get('/logout').then(function(response){
+
+            if(response.data == "logged_out"){
+                $location.path('thanks');
+            }
+        });
     }
 
 }]);
