@@ -100,7 +100,8 @@ router.post('/addVolunteer', function(request, response) {
                     console.log('error saving opening', err);
                 }
             });
-            response.sendStatus(200);
+            //response.sendStatus(200);
+            response.send('success');
         }
     });
 });

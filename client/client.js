@@ -150,14 +150,16 @@ app.controller('volunteerRegistrationController', ['$scope', '$http', '$location
     $scope.activitySubmitFunction = function(){
 
         $http.post('/addVolunteer', $scope.submitActivityID).then(function(response){
-            $location.path('youSignedUpFor');
-        })
+            if(response.data == 'success'){
+                $location.path('youSignedUpFor');
+            }
+        });
     };
 
     //on click of view / change registration button
     $scope.goToSignedUpFor = function(){
         $location.path('youSignedUpFor');
-    }
+    };
 
     $scope.logOut = function(){
         $http.get('/logout').then(function(response){
@@ -223,13 +225,10 @@ app.controller('youSignedUpForController', ['$scope', '$http', '$location', func
 
     //function to delete the selected activity from page
     $scope.activityDeleteFunction = function(activityId){
-        console.log('activity delete function', activityId);
+
         $scope.deleteActivityId.id = activityId;
-        console.log('activity delete function', $scope.deleteActivityId);
+
         $http.post('/removeActivity', $scope.deleteActivityId).then(function(response){
-            //if(response.data=='success'){
-            //    $location.path('volunteerRegistration');
-            //}
             if(response.data=='success'){
                 getSignedUpFor();
                 $location.path('youSignedUpFor');
@@ -239,7 +238,7 @@ app.controller('youSignedUpForController', ['$scope', '$http', '$location', func
 
     $scope.goToVolunteerRegistration = function(){
         $location.path('volunteerRegistration');
-    }
+    };
 
     $scope.logOut = function(){
         $http.get('/logout').then(function(response){
@@ -293,7 +292,7 @@ app.controller('coordinatorController', ['$scope', '$http', '$location', functio
 
     $scope.goToVolunteerList = function(){
         $location.path('volunteerList');
-    }
+    };
 
     $scope.logOut = function(){
         $http.get('/logout').then(function(response){
@@ -361,7 +360,7 @@ app.controller('volunteerListController', ['$scope', '$http', '$location', funct
                         };
                         //add the activities to the array
                         for(var j=0; j<userList[i].activities.length; j++){
-                            var tempActivity = {
+                            tempActivity = {
                                 activity_name: "",
                                 shift_time:""
                             };
@@ -384,7 +383,7 @@ app.controller('volunteerListController', ['$scope', '$http', '$location', funct
     //button click to return to the coordinator activity list
     $scope.goToActivityList = function(){
         $location.path('coordinatorInformation');
-    }
+    };
 
     $scope.logOut = function(){
         $http.get('/logout').then(function(response){

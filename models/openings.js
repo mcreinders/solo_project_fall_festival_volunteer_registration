@@ -3,7 +3,7 @@
  */
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
-var User = require('../models/users');
+//var User = require('../models/users');
 
 //Schema for the festival activities
 var OpeningSchema = new Schema({

@@ -1,6 +1,4 @@
 
-<button class="btn btn-default btn-xs logoutBtn" ng-click="logOut()">Log Out</button>
-
 <h2>Hi {{firstName}}!  You've signed up for.....</h2>
 <hr>
 <h5 ng-show="noActivities">If you need to remove an item, please select the 'REMOVE' button next to the item.</h5>
@@ -15,6 +13,12 @@
 
 </br></br></br></br>
 <hr>
-<h5>Want to sign up or select another opening? Go to the Volunteer Registration Page
+<h4>Want to sign up or select another opening?
     <button class="btn btn-default" ng-click="goToVolunteerRegistration()">Volunteer Registration</button>
-</h5>
+</h4>
+
+<hr>
+
+<h4>Everything look ok? Go ahead and log out.
+    <button class="btn btn-default btn-xs" ng-click="logOut()">Log Out</button>
+</h4>
