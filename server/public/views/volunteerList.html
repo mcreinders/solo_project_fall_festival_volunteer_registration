@@ -1,4 +1,7 @@
-<h2>Coordinator Information<button class="btn btn-default pull-right" ng-click="logOut()">Log Out</button></h2>
+
+<button class="btn btn-default btn-xs logoutBtn" ng-click="logOut()">Log Out</button>
+
+<h2>Coordinator Information</h2>
 <h5>Go to Activity List
     <button class="btn btn-default" ng-click="goToActivityList()">View activities</button>
 
@@ -6,7 +9,7 @@
 
 <hr>
 
-<h4>Volunteer List</h4>
+<h3>Volunteer List</h3>
 
 <hr>
 
@@ -37,7 +40,7 @@
     <tr ng-repeat="volunteer in volunteerList | orderBy:predicate:reverse | filter:searchVolunteers">
         <td>{{volunteer.name}}</td>
         <td class="contact">{{volunteer.contact}}</td>
-        <td>{{volunteer.reminder}}</td>
+        <td>{{volunteer.reminder}}</td><br/>
         <!--repeat over the activities for each volunteer-->
         <td ng-repeat="volactivity in volunteer.activities">{{volactivity.activity_name}} {{volactivity.shift_time}}</td>
     </tr>

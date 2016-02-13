@@ -10,18 +10,20 @@
     <script src="assets/scripts/client.min.js"></script>
     <base href="/">
 </head>
-<body>
-    <div class="wrapper">
-        <img class="innerBackground" src="images/inner-page-background.jpg">
-        <div class="leftWrapper">
-            <img class="logo" src="images/StBoniLogo.png">
-            <img class="navWrapper" src="images/nav-background (1).jpg">
+</body>
+    <div class="container-fluid">
+        <div class="wrapper">
+            <img class="innerBackground" src="images/inner-page-background.jpg">
+            <div class="leftWrapper">
+                <img class="logo" src="images/StBoniLogo.png">
+                <img class="navWrapper" src="images/nav-background (1).jpg">
 
+            </div>
         </div>
+        <div class="wrap">
+            <div ng-view></div>
+        </div>
+        <div class="footer">© 2106 Saint Bonaventure Catholic Community</div>
     </div>
-
-    <div ng-view></div>
-
-    <div class="footer">© 2106 Saint Bonaventure Catholic Community</div>
 </body>
 </html>

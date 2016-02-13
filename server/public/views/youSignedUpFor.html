@@ -1,8 +1,10 @@
 
-<h2>Hi {{firstName}}!  You've signed up for.....<button class="btn btn-default pull-right" ng-click="logOut()">Log Out</button></h2>
+<button class="btn btn-default btn-xs logoutBtn" ng-click="logOut()">Log Out</button>
+
+<h2>Hi {{firstName}}!  You've signed up for.....</h2>
 <hr>
 <h5 ng-show="noActivities">If you need to remove an item, please select the 'REMOVE' button next to the item.</h5>
-<div class="well col-md-6">
+<div class="well col-md-4">
     <div ng-repeat="item in signedUpFor | orderBy: 'shiftTime'">
         <p>
             {{item.shiftTime}} {{item.activity}}
