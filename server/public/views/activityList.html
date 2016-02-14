@@ -1,0 +1,44 @@
+<button class="btn btn-default btn-xs logoutBtn" ng-click="logOut()">Log Out</button>
+
+<h2>Coordinator Information - Activity List</h2>
+
+<h4>Back to Coordinator Information Main Page
+    <a href="/coordinatorInformation" class="btn btn-default">Back</a>
+</h4>
+
+<hr>
+
+<div>
+    <label>Filter:</label>
+    <input type="text" class="filter" placeholder="Search" ng-model="searchOpening"/>
+</div>
+
+<br/>
+
+<table class="openingsList">
+    <tr>
+        <th>
+            <button ng-click="order('shift')">Sort by time</button>
+            <span class="sortorder" ng-show="predicate === 'shift'" ng-class="{reverse:reverse}"></span>
+        </th>
+        <th>
+            <button ng-click="order('activity_name')">Sort by activity</button>
+            <span class="sortorder" ng-show="predicate === 'activity_name'" ng-class="{reverse:reverse}"></span>
+        </th>
+        <th>
+            <button ng-click="order('availOpenings')">Sort by Avail Openings</button>
+            <span class="sortorder" ng-show="predicate === 'availOpenings'" ng-class="{reverse:reverse}"></span>
+        </th>
+        <th>
+            <button ng-click="order('filled')">Sort by Filled</button>
+            <span class="sortorder" ng-show="predicate === 'filled'" ng-class="{reverse:reverse}"></span>
+        </th>
+    </tr>
+    <!--identify the id of the activity selected-->
+    <tr ng-repeat="available in availableArray | orderBy:predicate:reverse | filter:searchOpening">
+        <td>{{available.shift_time}}</td>
+        <td>{{available.activity_name}}</td>
+        <td>{{available.availOpenings}}</td>
+        <td class="full" ng-style="full">{{available.filled}}</td>
+    </tr>
+</table>

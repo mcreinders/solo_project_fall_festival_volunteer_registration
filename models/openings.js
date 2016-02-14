@@ -3,20 +3,16 @@
  */
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
-//var User = require('../models/users');
 
 //Schema for the festival activities
 var OpeningSchema = new Schema({
-    activity_name: String,
+    activity_name: {type: String, required: true},
     shift: Number,
-    shift_time: String,
-    max_avail: Number,
+    shift_time: {type: String, required: true},
+    max_avail: {type: Number, required: true},
     users: []
 });
 
 var openingModel = mongoose.model('Opening', OpeningSchema);
 
 module.exports = openingModel;
-
-//exports.schema = OpeningSchema;
-//exports.model = Opening;

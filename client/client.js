@@ -31,16 +31,28 @@ app.config(['$routeProvider', '$locationProvider', function($routeProvider, $loc
             templateUrl: 'views/addActivity.html',
             controller: 'addActivityController'
         })
+        .when('/activityAddSuccess', {
+            templateUrl: 'views/activityAddSuccess.html',
+            controller: 'activityAddSuccessController'
+        })
+        .when('/activityAddFail', {
+            templateUrl: 'views/activityAddFail.html',
+            controller: 'activityAddFailController'
+        })
+        .when('/activityList', {
+            templateUrl: 'views/activityList.html',
+            controller: 'activityListController'
+        })
+        .when('/volunteerList', {
+            templateUrl: 'views/volunteerList.html',
+            controller: 'volunteerListController'
+        })
         .when('/duplicateUsername', {
             templateUrl: 'views/duplicateUsername.html'
         })
         .when('/youSignedUpFor', {
             templateUrl: 'views/youSignedUpFor.html',
             controller: 'youSignedUpForController'
-        })
-        .when('/volunteerList', {
-            templateUrl: 'views/volunteerList.html',
-            controller: 'volunteerListController'
         })
         .when('/thanks', {
             templateUrl: 'views/thanks.html'
@@ -172,7 +184,6 @@ app.controller('volunteerRegistrationController', ['$scope', '$http', '$location
 
 }]);
 
-
 app.controller('youSignedUpForController', ['$scope', '$http', '$location', function($scope, $http, $location){
 
     //object to hold info on volunteer and openings they signed up for
@@ -253,6 +264,19 @@ app.controller('youSignedUpForController', ['$scope', '$http', '$location', func
 
 app.controller('coordinatorController', ['$scope', '$http', '$location', function($scope, $http, $location){
 
+    $scope.logOut = function(){
+        $http.get('/logout').then(function(response){
+
+            if(response.data == "logged_out"){
+                $location.path('thanks');
+            }
+        });
+    }
+
+}]);
+
+app.controller('activityListController', ['$scope', '$http', '$location', function($scope, $http, $location){
+
     //stuff to sort the lists on DOM
     $scope.predicate = 'shift';
     $scope.reverse = true;
@@ -287,12 +311,8 @@ app.controller('coordinatorController', ['$scope', '$http', '$location', functio
         })
     };
 
-    //to have openings show up on page load
+    ////to have openings show up on page load
     getOpenings();
-
-    $scope.goToVolunteerList = function(){
-        $location.path('volunteerList');
-    };
 
     $scope.logOut = function(){
         $http.get('/logout').then(function(response){
@@ -374,16 +394,10 @@ app.controller('volunteerListController', ['$scope', '$http', '$location', funct
                 }
             }
         });
-
     };
 
     //get the volunteer list on page load
     getVolunteers();
-
-    //button click to return to the coordinator activity list
-    $scope.goToActivityList = function(){
-        $location.path('coordinatorInformation');
-    };
 
     $scope.logOut = function(){
         $http.get('/logout').then(function(response){
@@ -393,7 +407,6 @@ app.controller('volunteerListController', ['$scope', '$http', '$location', funct
             }
         });
     }
-
 }]);
 
 app.controller('addActivityController', ['$scope', '$http', '$location', function($scope, $http, $location){
@@ -404,9 +417,42 @@ app.controller('addActivityController', ['$scope', '$http', '$location', functio
         $http.post('/addActivity', $scope.newActivity).then(function(response){
 
             if(response.data=='success'){
-                $location.path('coordinatorInformation');
+                $location.path('activityAddSuccess');
             }else{
-                console.log('activity save failed');
+                $location.path('activityAddFail');
+            }
+        });
+    }
+
+    $scope.logOut = function(){
+        $http.get('/logout').then(function(response){
+
+            if(response.data == "logged_out"){
+                $location.path('thanks');
+            }
+        });
+    }
+}]);
+
+app.controller('activityAddSuccessController', ['$scope', '$http', '$location', function($scope, $http, $location){
+
+    $scope.logOut = function(){
+        $http.get('/logout').then(function(response){
+
+            if(response.data == "logged_out"){
+                $location.path('thanks');
+            }
+        });
+    }
+}]);
+
+app.controller('activityAddFailController', ['$scope', '$http', '$location', function($scope, $http, $location){
+
+    $scope.logOut = function(){
+        $http.get('/logout').then(function(response){
+
+            if(response.data == "logged_out"){
+                $location.path('thanks');
             }
         });
     }

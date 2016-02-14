@@ -64,6 +64,7 @@ router.get('/getOpenings', function(request, response) {
             console.log(err)
         } else{
             response.send(activities);
+            //keep for reference
             //response.send(JSON.stringify(activities));
         }
     })
@@ -100,6 +101,7 @@ router.post('/addVolunteer', function(request, response) {
                     console.log('error saving opening', err);
                 }
             });
+            //keep for reference
             //response.sendStatus(200);
             response.send('success');
         }
@@ -180,7 +182,6 @@ router.post('/removeActivity', function(request, response) {
         }
     });
 
-    //response.sendStatus(200);
     response.send('success');
 
 });
