@@ -182,7 +182,21 @@ router.post('/removeActivity', function(request, response) {
 
     //response.sendStatus(200);
     response.send('success');
+
 });
+
+//route for coordinator to add a new activity
+router.post('/addActivity', function(request, response, next){
+    Opening.create(request.body, function(err, post){
+        if(err) {
+            //checks if opening already exists
+            response.send('failure');
+        } else {
+            response.send('success');
+        }
+    });
+});
+
 
 router.get('/logout', function(request, response){
     request.logout();

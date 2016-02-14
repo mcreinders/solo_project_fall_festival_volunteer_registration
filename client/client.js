@@ -27,6 +27,10 @@ app.config(['$routeProvider', '$locationProvider', function($routeProvider, $loc
             templateUrl: 'views/coordinatorInformation.html',
             controller: 'coordinatorController'
         })
+        .when('/addActivity', {
+            templateUrl: 'views/addActivity.html',
+            controller: 'addActivityController'
+        })
         .when('/duplicateUsername', {
             templateUrl: 'views/duplicateUsername.html'
         })
@@ -57,10 +61,6 @@ app.controller('newUserRegistrationController', ['$scope', '$http', '$location',
     $scope.registerUser = function(){
         $http.post('/registerNewUser', $scope.newUser).then(function(response){
 
-            //this didn't work
-            //if(response.status==200){
-            //    $location.path('volunteerRegistration');
-            //}
             if(response.data=='success'){
                 $location.path('returningUserSignIn');
             }else{
@@ -394,4 +394,20 @@ app.controller('volunteerListController', ['$scope', '$http', '$location', funct
         });
     }
 
+}]);
+
+app.controller('addActivityController', ['$scope', '$http', '$location', function($scope, $http, $location){
+
+    $scope.newActivity = {};
+
+    $scope.submitActivity = function(){
+        $http.post('/addActivity', $scope.newActivity).then(function(response){
+
+            if(response.data=='success'){
+                $location.path('coordinatorInformation');
+            }else{
+                console.log('activity save failed');
+            }
+        });
+    }
 }]);
